@@ -1,0 +1,101 @@
+3.1.48
+    * fix:  统一com_changelogstat、com_openlog的日志等级语义。现在syslevel是指允许显示不高于指定等级的日志，selfdefine日志等级语义保持原样
+    * fix:  修正了ul_log可以加载一个目录作为配置文件的Bug
+3.1.47
+    * add:  对于域名字典文件载入支持空行
+3.1.43.2
+    * fix:  修正ul_net1的超时，tv_usec单位
+3.1.42.5
+    * add:  添加ul_poll接口 
+    * fix:  把对ul_select的调用改为ul_poll
+    * fix:  把pthread_self调用改为gettid
+3.1.42
+    * fix:  修正ul_readconf_dir对于j没有做守护的情况
+3.1.35
+    * fix:  去除全局变量，改为接口
+    * add:  com_openlog中dev_num为0时，默认使用TTY设备
+3.1.34.3 ullib 2009/12/22
+    * add:  增加了接口使得url处理长度能够扩展到2048
+3.1.27.0    ullib 2009/03/26
+            本版本与3.1.20.11完全相同。为了让用户看到的版本号最新，防止误用，所以打一个新的tag
+3.1.20.11   ullib 2009/03/26
+    * add:  增加全新的日志库comlog，升级comlog与ullog能相互切换
+            本版本merge了3.1.26
+3.1.26.0    ullib 2009/02/26
+    * add:  增加导出函数ul_readline_speedo_ms_ex
+3.1.24.0    ullib 2009/02/17
+    * add:  增加接口ul_sreado_ms_ex2,ul_swriteo_ms_ex2,ul_sreadv_ms,ul_swritev_ms
+3.1.22.0    ullib 2008/11/19
+    * fix:  修复3.1.18.6中引入的日志输出格式中少一个空格问题，3.1.17以前版本的日志格式如下：
+            NOTICE: 11-18 15:42:42:  t.writelog * 182894201824 
+            42:42 与 t.writelog 间是2个空格 
+            Ullib_3-1-18-6_PD_BL和Ullib_3-1-19-1_PD_BL 
+            NOTICE: 11-18 15:42:42: t.writelog * 182894201824 
+            42:42 与 t.writelog间 是1个空格 
+            现在ullib_3-1-22-0_PD_BL重新修改为2个空格的情况 
+3.1.19.1    ullib 2008/08/20
+    * fix:  3.1.18.6中 ul_pack_read，ul_pack_reado_ms，ul_pack_reado引入了新的bug, 此版本修复
+3.1.18.6    ullib 2008/08/11
+    * fix:  本次升级对ullib进行了重构
+            总体修改:
+            本次升级不做完全重构，保留原有的功能逻辑，对程序逻辑进行少量的修改。修复代码bug, 增强健壮性。
+            对代码的目录结构进行整理，源代码放到src目录下，include下放头文件, include/dep 与 src/dep 下面放不推荐使用的接口
+            对主要的对外函数接口增加的更完整的doxygen文档
+            将部分不推荐使用的函数接口放到dep 目录下(在相应的头文件会include这些不推荐函数)，具体可以参见doxygen文档
+            对代码格式进行了相应的整理，使其更符合com的代码规范
+            将代码中的不安全函数如strcpy，ul_swriteo等使用相应的替代函数
+            内部函数，内部变量加上static前缀
+            增加局部变量初始化
+            修改魔鬼数字
+            加强对外接口异常分支守护，对传入参数进行判断
+            去除assert
+    * fix:  各模块的修改：
+            -- ul_char
+            新增ul_string.h替代ul_char.h,ul_char.h里include "ul_string.h"
+            增加ul_strlcpy,ul_strlcat等几个新接口
+            -- ul_conf 
+            对部分代码进行了重构，解决代码冗余问题，使代码结构更清晰,readconf的时候path可以支持不已'/'结尾的情况
+            -- ul_def
+            增加新宏包括UL_OFFSETOF取结构体偏移，UL_FLOATCMP符点数比较等
+            -- ul_http,ul_exlink,ul_htmltag
+            考虑到这几个模块在lib2中已经都有相应的独立库处理，都放到dep下
+            -- ul_url 未做修改
+            新的url库已经发布在public/urlparser下，ul_url逐步废弃
+            -- ul_file
+            修复ul_finfo中的统计空文件出错的bug
+            -- ul_log
+            将部分冗余代码合并，去除closelog时候没有使用共享内存打出的"in log: semget get error"提示。
+            -- ul_circle，ul_net，ul_pack，ul_udpdns
+            等几个库主要是对传入参数进行判断，代码的格式等方面进行修改.
+3.1.17.0    ullib 2008/03/13
+    * fix:  add 为config模块增加include子配置文件功能.只支持一级子配置文件,不处理递归情况.新增函数 ul_readconf_ex函数实现,其他功能不受影响
+            在主配置文件中添加 $include : "slave_conf"那么在读取主配置完之后，会再去读取slave_conf配置文件。
+            如果key冲突，以主conf为主。
+            如果多个从conf有重key，按其文件名在主配置的顺序，优先取第一个。
+3.1.16.1    ullib 2008/01/31
+    * fix:  调用ul_normalize_url允许空格出现，但做%20处理
+    * fix:  与ullib_3-1-11-1_PD_BL相比，引入更多的检查，导致性能有所下降, 本次升级在性能上作了一定优化，与3.1.11.1比仍然有所下降，但比3.1.13.2提高很多。
+            ul_normalize_url : 3.1.16.1 与3.1.11.1相比性能下降%15, 与3.1.13.2相比提高10%;
+            ul_chek_url: 3.1.16.1与3.1.11.1相比性能下降约%40, 与3.1.13.2相比有30%的提高
+            涉及函数:[ul_normalize_url,ul_normalize_url_ex, ul_check_url, ul_check_url_ex, ul_single_path, ul_single_path_ex]
+    * fix:  ullib_3-1-13-2_PD_BL放开url检查而引入的两个潜在的bug，本次升级一并修复。
+            *对于www.b%41idu.com的情况会成为www.bAidu.com没有进行大小写转化
+            *对于www.b%41idu.com:8084 ，由于%41变成了'A'长度缩短，但处理端口的时候指针位置没有调整，导致ul_check_url结果错误。
+3.1.14.0    ullib 2007/10/22
+    * fix:  thread封装库64位bug
+    * fix:  url二级域名升级，忽略二级域名对提取主域名的影响
+3.1.13.0    ullib 2007/07/23
+    * fix:  url召回扩展，指在召回更多有规律的非法url，详细请参见相关文档
+    * add:  为config模块增加接口，支持unsigned int ,long long  ,unsigned long long等类型的读取和写入
+3.1.11.0    ullib 2007/05/14
+    * add:  增加自定义级别的日志输出,使用户指定的日志可输出到用户自定义的日志文件中去
+    * fix:  修复ul_connecto_sclose函数中句柄泄露的bug
+3.1.10.0    ullib 2007/05/08
+    * fix:  拆分ul_net.cpp为ul_net1.cpp和ul_net2.cpp，本次拆分主要为了兼容-static编译，避免报告不必要的warning 
+3.1.7.0     ullib 2007/03/09
+    * fix:  扩展ul_log打印长度限制,可支持全长为2k的单条log
+    * fix:  修复ul_log在64位平台上选择UL_LOGTTY选项时出现的异常
+    * fix:  修复ul_log分配内存失败导致的异常分支
+    * fix:  修复ul_log在trunkcat文件时引起的服务阻塞问题
+    * fix:  优化ul_isspace函数的设计，采用宏实现，提高效率
+    * fix:  修复ul_url中由于include 头文件而引发的编译问题

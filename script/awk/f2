@@ -1,0 +1,4 @@
+#!/bin/sh
+user=`whoami`;
+p=`pwd`;
+echo $user,$p;

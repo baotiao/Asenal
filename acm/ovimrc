@@ -1,0 +1,143 @@
+set t_Co=256
+let mapleader = ","
+"非兼容模式
+set nocp
+"底部标尺
+set ru
+"搜索时高亮显示结果
+set hls
+"输入搜索命令时，显示目前输入的模式的匹配位置
+set is
+set ignorecase
+"显示行号
+set number
+"使用:e命令的时候 可选项预览
+set wildmenu
+"文件默认编码
+set enc=utf-8
+set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8 
+set fileencoding=utf-8
+set ff=unix
+"缩进为4个空格宽度
+set tabstop=4
+"自动缩进使用的空格数
+set shiftwidth=4
+"编辑插入tab时，把tab算作的空格数
+set softtabstop=4
+"缩进使用空格
+"set noexpandtab
+"自动缩进
+set autoindent
+"鼠标捕捉
+"set mouse=a
+"打开语法高亮
+syntax enable
+set background=dark
+"colorscheme wombat256
+colorscheme solarized
+
+set comments=sl:/*,mb:*,ex:*/
+set showtabline=2
+
+" 重新载入配置
+
+" visual模式修改缩进时不退出该模式
+
+"映射F12键为行号的开关
+nmap <silent> <F11> :set tags=~/c/scmpf/tags<CR>
+
+nnoremap <space> za
+
+filetype on
+:autocmd BufRead,BufNewFile *.php set expandtab tabstop=4 shiftwidth=4 autoindent smartindent keywordprg="help"
+:autocmd BufRead,BufNewFile *.py set expandtab tabstop=4 shiftwidth=4 autoindent smartindent
+:autocmd BufRead,BufNewFile *.cpp set expandtab tabstop=4 shiftwidth=4 autoindent smartindent
+:autocmd BufRead,BufNewFile *.h set expandtab tabstop=4 shiftwidth=4 autoindent smartindent
+:autocmd BufRead,BufNewFile *.c set expandtab tabstop=4 shiftwidth=4 autoindent smartindent
+:autocmd BufRead,BufNewFile *.xml set expandtab tabstop=4 shiftwidth=4 autoindent smartindent foldmethod=indent
+
+"au BufNewFile,BufRead *.as set filetype=actionscript
+"" Multiple filetype for freemarker
+"au BufNewFile,BufRead *.ftl set filetype=ftl.html
+"au BufReadCmd *.jar,*.xpi,*.egg call zip#Browse(expand("<amatch>"))
+"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType css set foldmethod=marker
+"autocmd FileType python filetype plugin indent on
+"autocmd FileType python setlocal et sta sw=4 sts=4
+
+""""""""""""""""""""""""""""""
+" tabs color "
+"""""""""""""""""""""""""""""
+nmap <silent> <F7> :!python %<CR>
+nmap <silent> <F8> :!make<CR>
+nmap <silent> <F9> :!./a.out<CR>
+nmap <silent> <F10> :source %<cr>
+
+"nmap <silent> <F9> :!gcc -o main.out %<CR> :!./main.out<CR>
+"hi TabLine     cterm=none ctermfg=lightgrey ctermbg=lightblue guifg=gray guibg=black
+"hi TabLineSel  cterm=none ctermfg=lightgrey ctermbg=LightMagenta guifg=white guibg=black
+"hi TabLineFill cterm=none ctermfg=lightblue ctermbg=lightblue guifg=black guibg=black
+
+""""""""""""""""""""""""""""""
+" BufExplore settingr
+""""""""""""""""""""""""""""""
+"let g:bufExplorerDefaultHelp=0       " Do not show default help.
+"let g:bufExplorerShowRelativePath=1  " Show relative paths.
+"let g:bufExplorerSortBy='mru'        " Sort by most recently used.
+"let g:bufExplorerSplitRight=0        " Split left.
+"let g:bufExplorerSplitVertical=1     " Split vertically.
+"let g:bufExplorerSplitVertSize = 30  " Split width
+"let g:bufExplorerUseCurrentWindow=1  " Open in new window.
+
+let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+let Tlist_Display_Prototype = 1
+
+
+nmap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+let g:tagbar_width = 30
+
+"a.vim shortkey
+map ,a :A<CR>
+
+"NERDTree shortkey
+map <F2> :NERDTreeToggle<CR>
+
+"Add vim-v to pbcopy
+vmap <silent>y y:call system("pbcopy", getreg("\""))<cr>
+"nmap <C-v> :call setreg("\"",system("pbpaste"))p
+nnoremap <leader>ev :tabe $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+" add colon in a word
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+inoremap jk <esc>
+inoremap <esc> <nop>
+
+" add quickfix map
+nnoremap <leader>cn :cn<cr>
+nnoremap <leader>cp :cp<cr>
+nmap <leader>cw :cw 10<cr>
+" add new quickfix in new tabe
+"set switchbuf+=usetab,newtab
+
+nnoremap <leader>m :!make<cr>
+nnoremap <leader>b :!./a.out<cr>
+nnoremap <leader>c :!g++ %<cr>
+
+set pastetoggle=<F3>
+nmap <C-N> :tabnext<CR>
+nmap <C-P> :tabprevious<CR>
+let g:ctrlp_map = '<c-e>'
+
+fun! KeywordComplete()
+    let left = strpart(getline('.'), col('.') - 2, 1)
+    if left =~ "^$"
+        return "\<Tab>"
+    elseif left =~ ' $'
+        return "\<Tab>"
+    else
+        return "\<C-N>"
+    endfun
+    inoremap <silent> <Tab> <C-R>=KeywordComplete()<CR>

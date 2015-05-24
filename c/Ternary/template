@@ -1,0 +1,267 @@
+Algorithm Alley
+
+by Jon Bentley and Bob Sedgewick
+
+
+
+Listing One 
+
+typedef struct tnode *Tptr; 
+
+typedef struct tnode { 
+
+   char splitchar; 
+
+   Tptr lokid, eqkid, hikid; 
+
+} Tnode; 
+
+
+
+
+
+Listing Two
+
+int rsearch(Tptr p, char *s) 
+
+{   if (!p) return 0; 
+
+    if (*s < p->splitchar) 
+
+         return rsearch(p->lokid, s); 
+
+    else if (*s > p->splitchar) 
+
+        return rsearch(p->hikid, s); 
+
+    else { 
+
+        if (*s == 0) return 1; 
+
+        return rsearch(p->eqkid, ++s); 
+
+   } 
+
+} 
+
+
+
+Listing Three
+
+int search(char *s) 
+
+{   Tptr p; 
+
+    p = root; 
+
+    while (p) { 
+
+       if (*s < p->splitchar) 
+
+           p = p->lokid; 
+
+       else if (*s == p->splitchar) { 
+
+          if (*s++ == 0) 
+
+              return 1; 
+
+          p = p->eqkid; 
+
+      } else 
+
+          p = p->hikid; 
+
+    } 
+
+    return 0; 
+
+} 
+
+
+
+Listing Four 
+
+int rsearch2(Tptr p, char *s) 
+
+{ return (!p ? 0 : ( 
+
+        *s == p->splitchar 
+
+       ? (*s ? rsearch2(p->eqkid, ++s) : 1) 
+
+       : (rsearch2(*s < p->splitchar ? 
+
+                p->lokid : p->hikid, s)) 
+
+     )); 
+
+} 
+
+
+
+Listing Five
+
+Tptr insert(Tptr p, char *s) 
+
+   { if  (p == 0) { 
+
+          p = (Tptr) malloc(sizeof(Tnode)); 
+
+          p->splitchar = *s; 
+
+          p->lokid = p->eqkid = p->hikid = 0; 
+
+     } 
+
+     if (*s < p->splitchar) 
+
+          p->lokid = insert(p->lokid, s); 
+
+     else if (*s == p->splitchar) { 
+
+          if (*s != 0) 
+
+              p->eqkid = insert(p->eqkid, ++s); 
+
+    } else 
+
+              p->hikid = insert(p->hikid, s); 
+
+    return p; 
+
+  } 
+
+
+
+Listing Six
+
+if (*s == 0) 
+
+    p->eqkid = (Tptr) insertstr; 
+
+else 
+
+    p->eqkid = insert(p->eqkid, ++s); 
+
+
+
+Listing Seven
+
+int hashfunc(char *s) 
+
+{   unsigned n = 0; 
+
+        for ( ; *s; s++) 
+
+                 n = 31 * n + *s; 
+
+        return n % tabsize; 
+
+} 
+
+
+
+
+
+Listing Eight 
+
+for (p = tab[hashfunc(s)]; p; p = p->next) 
+
+    if (strcmp(s, p->str) == 0) 
+
+       return 1; 
+
+return 0; 
+
+
+
+Listing Nine 
+
+void traverse(Tptr p) 
+
+{    if (!p) return; 
+
+     traverse(p->lokid); 
+
+     if (p->splitchar) 
+
+         traverse(p->eqkid); 
+
+     else 
+
+         printf("%s0, (char *) p->eqkid); 
+
+     traverse(p->hikid); 
+
+} 
+
+
+
+Listing Ten
+
+void pmsearch(Tptr p, char *s) 
+
+{    if  (!p) return; 
+
+     nodecnt++; 
+
+     if (*s == '.' || *s < p->splitchar) 
+
+        pmsearch(p->lokid, s); 
+
+     if (*s == '.' || *s == p->splitchar) 
+
+        if (p->splitchar && *s) 
+
+            pmsearch(p->eqkid, s+1); 
+
+     if (*s == 0 && p->splitchar == 0) 
+
+            srcharr[srchtop++] = 
+
+                (char *) p->eqkid; 
+
+     if (*s == '.' || *s > p->splitchar) 
+
+            pmsearch(p->hikid, s); 
+
+} 
+
+
+
+Listing Eleven
+
+void nearsearch(Tptr p, char *s, int d) 
+
+{   if (!p || d < 0) return; 
+
+    if (d > 0 || *s < p->splitchar) 
+
+        nearsearch(p->lokid, s, d); 
+
+    if (p->splitchar == 0) { 
+
+       if ((int) strlen(s) <= d) 
+
+          srcharr[srchtop++] = (char *) p->eqkid; 
+
+    } else 
+
+       nearsearch(p->eqkid, *s ? s+1:s, 
+
+          (*s == p->splitchar) ? d:d-1); 
+
+    if (d > 0 || *s > p->splitchar) 
+
+        nearsearch(p->hikid, s, d); 
+
+} 
+
+
+
+3
+
+
+
+

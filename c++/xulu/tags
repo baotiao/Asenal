@@ -1,0 +1,69 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Assert	debug.h	28;"	d
+CC	Makefile	/^CC=g++$/;"	m
+CCFLAGS	Makefile	/^  CCFLAGS = -O2$/;"	m
+CCFLAGS	Makefile	/^  CCFLAGS = -g$/;"	m
+Clause	clause.h	/^  Clause() {}$/;"	f	class:Sat::Clause
+Clause	clause.h	/^class Clause {$/;"	c	namespace:Sat
+ClauseImpl	clause_impl.h	/^        ClauseImpl() {};$/;"	f	class:ClauseImpl
+ClauseImpl	clause_impl.h	/^class ClauseImpl: public Clause {$/;"	c
+DebugUtil	debug.cpp	/^namespace DebugUtil {$/;"	n	file:
+DebugUtil	debug.h	/^namespace DebugUtil {$/;"	n
+EXECUTABLE	Makefile	/^EXECUTABLE=sat$/;"	m
+Exception	debug.h	/^    Exception(): d_msg("Unknown exception") { }$/;"	f	class:DebugUtil::Exception
+Exception	debug.h	/^    Exception(const char* msg): d_msg(msg) { }$/;"	f	class:DebugUtil::Exception
+Exception	debug.h	/^    Exception(const std::string& msg): d_msg(msg) { }$/;"	f	class:DebugUtil::Exception
+Exception	debug.h	/^class Exception {$/;"	c	namespace:DebugUtil
+Formula	formula.h	/^  Formula() : maxVar(0) {}$/;"	f	class:Sat::Formula
+Formula	formula.h	/^class Formula {$/;"	c	namespace:Sat
+FormulaImpl	formula_impl.cpp	/^FormulaImpl::FormulaImpl()$/;"	f	class:FormulaImpl
+FormulaImpl	formula_impl.h	/^class FormulaImpl: public Formula {$/;"	c
+HEADERS	Makefile	/^HEADERS=formula.h clause.h debug.h clause_impl.h formula_impl.h solver.h$/;"	m
+OBJECTS	Makefile	/^OBJECTS=$(SOURCES:.cpp=.o)$/;"	m
+SOURCES	Makefile	/^SOURCES=sat.cpp formula.cpp clause.cpp debug.cpp clause_impl.cpp formula_impl.cpp solver.cpp$/;"	m
+Sat	clause.h	/^namespace Sat {$/;"	n
+Sat	formula.h	/^namespace Sat {$/;"	n
+Solver	solver.h	/^class Solver{$/;"	c
+addClause	formula_impl.cpp	/^Clause& FormulaImpl::addClause()$/;"	f	class:FormulaImpl
+addLiteral	clause_impl.cpp	/^void ClauseImpl::addLiteral(int lit)$/;"	f	class:ClauseImpl
+assertError	debug.cpp	/^void assertError(const string& file, int line,$/;"	f	namespace:DebugUtil
+clauseList	formula_impl.h	/^        vector<ClauseImpl> clauseList;$/;"	m	class:FormulaImpl
+clause_h	clause.h	2;"	d
+clause_impl_h	clause_impl.h	2;"	d
+consistent	formula_impl.cpp	/^bool FormulaImpl::consistent()$/;"	f	class:FormulaImpl
+d_msg	debug.h	/^    std::string d_msg;$/;"	m	class:DebugUtil::Exception
+debug_h	debug.h	2;"	d
+dumpClause	clause.cpp	/^void Clause::dumpClause() const$/;"	f	class:Clause
+dumpClauses	formula.cpp	/^void Formula::dumpClauses()$/;"	f	class:Formula
+emptyClause	formula_impl.cpp	/^bool FormulaImpl::emptyClause()$/;"	f	class:FormulaImpl
+formula_h	formula.h	2;"	d
+formula_impl_h	formula_impl.h	2;"	d
+getClause	formula_impl.cpp	/^Clause& FormulaImpl::getClause(int i)$/;"	f	class:FormulaImpl
+getLit	clause_impl.cpp	/^int ClauseImpl::getLit(int i) const$/;"	f	class:ClauseImpl
+literalList	clause_impl.h	/^        vector<int> literalList;$/;"	m	class:ClauseImpl
+main	sat.cpp	/^int main(int argc, char **argv)$/;"	f
+maxNum	clause_impl.h	/^        int maxNum;$/;"	m	class:ClauseImpl
+maxVar	clause_impl.cpp	/^int ClauseImpl::maxVar() const$/;"	f	class:ClauseImpl
+maxVar	formula.h	/^  int maxVar;  \/\/ maximum variable in this formula$/;"	m	class:Sat::Formula
+numClauses	formula_impl.cpp	/^int FormulaImpl::numClauses() const$/;"	f	class:FormulaImpl
+numLits	clause_impl.cpp	/^int ClauseImpl::numLits() const$/;"	f	class:ClauseImpl
+operator <<	debug.cpp	/^ostream& operator<<(ostream& os, const Exception& e)$/;"	f	namespace:DebugUtil
+pureClause	formula_impl.cpp	/^bool FormulaImpl::pureClause()$/;"	f	class:FormulaImpl
+readClause	clause.cpp	/^void Clause::readClause(istream& is)$/;"	f	class:Clause
+readClauses	formula.cpp	/^void Formula::readClauses(istream& is)$/;"	f	class:Formula
+setMessage	debug.h	/^    void setMessage(const std::string& msg) { d_msg = msg; }$/;"	f	class:DebugUtil::Exception
+solve	solver.cpp	/^bool Solver::solve(FormulaImpl f)$/;"	f	class:Solver
+solver_h	solver.h	2;"	d
+toString	debug.h	/^    virtual std::string toString() const { return d_msg; }$/;"	f	class:DebugUtil::Exception
+unitClause	formula_impl.cpp	/^bool FormulaImpl::unitClause()$/;"	f	class:FormulaImpl
+updateClause	formula_impl.cpp	/^void FormulaImpl::updateClause(int lit)$/;"	f	class:FormulaImpl
+~Clause	clause.h	/^  virtual ~Clause() {}$/;"	f	class:Sat::Clause
+~ClauseImpl	clause_impl.cpp	/^ClauseImpl::~ClauseImpl()$/;"	f	class:ClauseImpl
+~Exception	debug.h	/^    virtual ~Exception() { }$/;"	f	class:DebugUtil::Exception
+~Formula	formula.h	/^  virtual ~Formula() {}$/;"	f	class:Sat::Formula
+~FormulaImpl	formula_impl.cpp	/^FormulaImpl::~FormulaImpl()$/;"	f	class:FormulaImpl

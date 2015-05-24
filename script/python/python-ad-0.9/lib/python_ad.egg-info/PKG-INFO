@@ -1,0 +1,14 @@
+Metadata-Version: 1.0
+Name: python-ad
+Version: 0.9
+Summary: An AD client library for Python
+Home-page: http://code.google.com/p/python-ad
+Author: Geert Jansen
+Author-email: geert@boskant.nl
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python

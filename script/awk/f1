@@ -1,0 +1,8 @@
+#!/bin/sh
+ans=0;
+for ((i=0; i<5; i++))
+do
+    ans=$(($ans + $i));
+done
+echo $ans;
+    

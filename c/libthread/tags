@@ -1,0 +1,34 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CQ	./main.h	/^typedef struct conn_queue_item CQ;$/;"	t	typeref:struct:conn_queue_item
+DISPATCH_THREAD	./main.h	/^struct DISPATCH_THREAD {$/;"	s
+MAINH	./main.h	/^#define MAINH$/;"	d
+WORK_THREAD	./main.h	/^struct WORK_THREAD {$/;"	s
+base	./main.h	/^    struct event_base *base;$/;"	m	struct:DISPATCH_THREAD	typeref:struct:DISPATCH_THREAD::event_base
+base	./main.h	/^    struct event_base *base;$/;"	m	struct:WORK_THREAD	typeref:struct:WORK_THREAD::event_base
+call_accept	./main.c	/^void call_accept(int fd, short event, void *arg)$/;"	f
+conn_queue_item	./main.h	/^struct conn_queue_item {$/;"	s
+cq	./main.h	/^    struct conn_queue_item cq;$/;"	m	struct:WORK_THREAD	typeref:struct:WORK_THREAD::conn_queue_item
+create_worker	./thread.c	/^void create_worker(void *(*func)(void *), void *arg)$/;"	f
+dh_thread	./main.h	/^typedef struct DISPATCH_THREAD dh_thread;$/;"	t	typeref:struct:DISPATCH_THREAD
+dispatch_new_thread	./thread.c	/^void dispatch_new_thread(int fd)$/;"	f
+dispatch_thread	./thread.c	/^static dh_thread dispatch_thread;$/;"	v	file:
+last_thread	./thread.c	/^static int last_thread = -1;$/;"	v	file:
+main	./main.c	/^int main()$/;"	f
+main_base	./main.c	/^static struct event_base *main_base;$/;"	v	typeref:struct:event_base	file:
+notify_event	./main.h	/^    struct event notify_event;$/;"	m	struct:WORK_THREAD	typeref:struct:WORK_THREAD::event
+notify_receive_fd	./main.h	/^    int notify_receive_fd;$/;"	m	struct:WORK_THREAD
+notify_send_fd	./main.h	/^    int notify_send_fd;$/;"	m	struct:WORK_THREAD
+setup_thread	./thread.c	/^void setup_thread(wk_thread *work_thread)$/;"	f
+sfd	./main.h	/^    int sfd;$/;"	m	struct:conn_queue_item
+thread_id	./main.h	/^    pthread_t thread_id;$/;"	m	struct:DISPATCH_THREAD
+thread_id	./main.h	/^    pthread_t thread_id;$/;"	m	struct:WORK_THREAD
+thread_init	./thread.c	/^void thread_init(int t_num, struct event_base *main_base)$/;"	f
+thread_libevent_process	./thread.c	/^void thread_libevent_process(int fd, short which, void *arg)$/;"	f
+threads	./thread.c	/^static wk_thread *threads;$/;"	v	file:
+wk_thread	./main.h	/^typedef struct WORK_THREAD wk_thread;$/;"	t	typeref:struct:WORK_THREAD
+worker_libevent	./thread.c	/^void worker_libevent(void *arg)$/;"	f

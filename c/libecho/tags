@@ -1,0 +1,6 @@
+Mclient	./client.c	/^int main()$/
+Mserver	./server.c	/^int main()$/
+SA	./client.c	/^typedef struct sockaddr * SA;$/
+call_accept	./server.c	/^void call_accept(int fd, short event, void *arg)$/
+str_cli	./client.c	/^void str_cli(FILE *fp, int sockfd)$/
+str_echo	./server.c	/^void str_echo(int fd, short event, void *arg)$/

@@ -1,0 +1,124 @@
+nom.ad 
+ac.ae co.ae sch.ae 
+co.ag nom.ag 
+off.ai 
+co.ao ed.ao gv.ao it.ao og.ao pb.ao 
+e164.arpa in-addr.arpa ip6.arpa iris.arpa uri.arpa urn.arpa 
+ac.at co.at gv.at or.at priv.at 
+act.au asn.au conf.au csiro.au id.au nsw.au nt.au otc.au oz.au qld.au sa.au tas.au telememo.au vic.au wa.au 
+pp.az 
+co.ba rs.ba unbi.ba unsa.ba 
+ac.bd 
+ac.be belgie.be dns.be fgov.be 
+cc.bh 
+gob.bo tv.bo 
+adm.br adv.br agr.br am.br arq.br art.br ato.br bio.br bmd.br cim.br cng.br cnt.br dpn.br ecn.br eng.br esp.br etc.br eti.br far.br fm.br fnd.br fot.br fst.br g12.br ggf.br imb.br ind.br inf.br jor.br lel.br mat.br med.br mus.br nom.br not.br ntr.br odo.br ppg.br psc.br psi.br qsl.br rec.br slg.br srv.br tmp.br trd.br tur.br tv.br vet.br zlg.br 
+co.bw 
+ab.ca bc.ca gc.ca mb.ca nb.ca nf.ca nl.ca ns.ca nt.ca nu.ca on.ca pe.ca qc.ca sk.ca yk.ca 
+co.ck 
+ac.cn ah.cn bj.cn cq.cn fj.cn gd.cn gs.cn gx.cn gz.cn ha.cn hb.cn he.cn hi.cn hk.cn hl.cn hn.cn jl.cn js.cn jx.cn ln.cn mo.cn nm.cn nx.cn qh.cn sc.cn sd.cn sh.cn sn.cn sx.cn tj.cn tw.cn xj.cn xz.cn yn.cn zj.cn 
+arts.co firm.co nom.co rec.co store.co web.co 
+lkd.co.im ltd.co.im plc.co.im 
+#au.com br.com cn.com de.com eu.com gb.com hu.com no.com qc.com ru.com sa.com se.com uk.com us.com uy.com za.com 
+ac.cr co.cr ed.cr fi.cr go.cr or.cr sa.cr 
+inf.cu 
+ac.cy ekloges.cy ltd.cy parliament.cy press.cy tm.cy 
+co.dk 
+art.do gob.do sld.do web.do 
+art.dz asso.dz pol.dz 
+fin.ec k12.ec med.ec 
+co.ee fie.ee med.ee pri.ee 
+eun.eg sci.eg 
+ind.er 
+gob.es nom.es 
+aland.fi 
+ac.fj id.fj school.fj 
+ac.fk co.fk nom.fk 
+aeroport.fr assedic.fr asso.fr avocat.fr avoues.fr barreau.fr cci.fr chambagri.fr chirurgiens-dentistes.fr experts-comptables.fr geometre-expert.fr gouv.fr greta.fr huissier-justice.fr medecin.fr nom.fr notaires.fr pharmacien.fr port.fr prd.fr presse.fr tm.fr veterinaire.fr 
+pvt.ge 
+ac.gg alderney.gg co.gg guernsey.gg ind.gg ltd.gg sark.gg sch.gg 
+ltd.gi mod.gi 
+ac.gn 
+asso.gp 
+gob.gt ind.gt 
+idv.hk 
+gob.hn 
+from.hr iz.hr 
+adult.ht art.ht asso.ht firm.ht gouv.ht med.ht perso.ht pol.ht rel.ht shop.ht 
+2000.hu ac.hu agrar.hu bolt.hu casino.hu city.hu co.hu erotica.hu erotika.hu film.hu forum.hu games.hu hotel.hu ingatlan.hu jogasz.hu konyvelo.hu lakas.hu media.hu news.hu priv.hu reklam.hu sex.hu shop.hu sport.hu suli.hu szex.hu tm.hu tozsde.hu utazas.hu video.hu 
+ac.id co.id go.id or.id sch.id web.id 
+ac.il co.il idf.il k12.il muni.il 
+ac.im co.im nic.im 
+ac.in co.in ernet.in firm.in gen.in ind.in nic.in res.in 
+ac.ir co.ir id.ir sch.ir 
+ac.je co.je ind.je jersey.je ltd.je sch.je 
+ac.jp ad.jp aichi.jp akita.jp aomori.jp chiba.jp co.jp ed.jp ehime.jp fukui.jp fukuoka.jp fukushima.jp gifu.jp go.jp gr.jp gunma.jp hiroshima.jp hokkaido.jp hyogo.jp ibaraki.jp ishikawa.jp iwate.jp kagawa.jp kagoshima.jp kanagawa.jp kanazawa.jp kawasaki.jp kitakyushu.jp kobe.jp kochi.jp kumamoto.jp kyoto.jp lg.jp matsuyama.jp mie.jp miyagi.jp miyazaki.jp nagano.jp nagasaki.jp nagoya.jp nara.jp ne.jp niigata.jp oita.jp okayama.jp okinawa.jp or.jp osaka.jp saga.jp saitama.jp sapporo.jp sendai.jp shiga.jp shimane.jp shizuoka.jp takamatsu.jp tochigi.jp tokushima.jp tokyo.jp tottori.jp toyama.jp utsunomiya.jp wakayama.jp yamagata.jp yamaguchi.jp yamanashi.jp yokohama.jp 
+ac.ke co.ke go.ke ne.ke new.ke or.ke sc.ke 
+per.kh 
+ac.kr busan.kr chungbuk.kr chungnam.kr co.kr daegu.kr daejeon.kr es.kr gangwon.kr go.kr gwangju.kr gyeongbuk.kr gyeonggi.kr gyeongnam.kr hs.kr incheon.kr jeju.kr jeonbuk.kr jeonnam.kr kg.kr kyonggi.kr ms.kr ne.kr or.kr pe.kr re.kr sc.kr seoul.kr ulsan.kr 
+assn.lk grp.lk hotel.lk ltd.lk ngo.lk sch.lk soc.lk web.lk 
+co.ls 
+asn.lv conf.lv id.lv 
+id.ly med.ly plc.ly sch.ly 
+ac.ma co.ma press.ma 
+asso.mc tm.mc 
+ac.me co.me its.me priv.me 
+nom.mg prd.mg tm.mg 
+army.mil navy.mil 
+music.mobi weather.mobi 
+tm.mt uu.mt 
+co.mu 
+ac.mw co.mw 
+gob.mx 
+alt.na cul.na telecom.na unam.na 
+de.net gb.net uk.net 
+ac.ng sch.ng 
+gob.ni nom.ni 
+fhs.no folkebibl.no fylkesbibl.no herad.no idrett.no kommune.no priv.no stat.no vgs.no 
+co.nr fax.nr mob.nr mobil.nr mobile.nr tlf.nr 
+ac.nz co.nz cri.nz geek.nz gen.nz govt.nz iwi.nz maori.nz school.nz parliament.nz
+ac.om co.om med.om mod.om sch.om 
+dk.org eu.org 
+abo.pa ac.pa gob.pa ing.pa med.pa nom.pa sld.pa 
+gob.pe nom.pe 
+ac.pg 
+ngo.ph 
+fam.pk gob.pk gok.pk gon.pk gop.pk gos.pk web.pk 
+agro.pl aid.pl art.pl atm.pl auto.pl bialystok.pl gda.pl gdansk.pl gmina.pl gsm.pl katowice.pl krakow.pl lodz.pl lublin.pl mail.pl media.pl miasta.pl ngo.pl nieruchomosci.pl nom.pl olsztyn.pl opole.pl pc.pl powiat.pl poznan.pl priv.pl realestate.pl rel.pl sex.pl shop.pl sklep.pl slupsk.pl sos.pl szczecin.pl szkola.pl targi.pl tm.pl torun.pl tourism.pl turystyka.pl warszawa.pl waw.pl wroc.pl wroclaw.pl za.pl zgora.pl 
+isla.pr 
+cpa.pro law.pro med.pro 
+plo.ps sec.ps 
+nome.pt publ.pt 
+asso.re nom.re 
+arts.ro firm.ro nom.ro nt.ro rec.ro store.ro tm.ro www.ro 
+ac.rs co.rs in.rs 
+ac.ru adygeya.ru altai.ru amur.ru amursk.ru arkhangelsk.ru astrakhan.ru baikal.ru bashkiria.ru belgorod.ru bir.ru bryansk.ru buryatia.ru cbg.ru chel.ru chelyabinsk.ru chita.ru chukotka.ru chuvashia.ru cmw.ru dagestan.ru dudinka.ru e-burg.ru fareast.ru grozny.ru irkutsk.ru ivanovo.ru izhevsk.ru jamal.ru jar.ru joshkar-ola.ru k-uralsk.ru kalmykia.ru kaluga.ru kamchatka.ru karelia.ru kazan.ru kchr.ru kemerovo.ru khabarovsk.ru khakassia.ru khv.ru kirov.ru kms.ru koenig.ru komi.ru kostroma.ru krasnoyarsk.ru kuban.ru kurgan.ru kursk.ru kustanai.ru kuzbass.ru lipetsk.ru magadan.ru magnitka.ru mari-el.ru mari.ru marine.ru mordovia.ru mosreg.ru msk.ru murmansk.ru mytis.ru nakhodka.ru nalchik.ru nkz.ru nnov.ru norilsk.ru nov.ru novosibirsk.ru nsk.ru omsk.ru orenburg.ru oryol.ru oskol.ru palana.ru penza.ru perm.ru pp.ru pskov.ru ptz.ru pyatigorsk.ru rnd.ru rubtsovsk.ru ryazan.ru sakhalin.ru samara.ru saratov.ru simbirsk.ru smolensk.ru snz.ru spb.ru stavropol.ru stv.ru surgut.ru syzran.ru tambov.ru tatarstan.ru test.ru tom.ru tomsk.ru tsaritsyn.ru tsk.ru tula.ru tuva.ru tver.ru tyumen.ru udm.ru udmurtia.ru ulan-ude.ru vdonsk.ru vladikavkaz.ru vladimir.ru vladivostok.ru volgograd.ru vologda.ru voronezh.ru vrn.ru vyatka.ru yakutia.ru yamal.ru yaroslavl.ru yekaterinburg.ru yuzhno-sakhalinsk.ru zgrad.ru 
+ac.rw co.rw gouv.rw 
+med.sa pub.sa sch.sa 
+med.sd sch.sd tv.sd 
+ab.se ac.se bd.se brand.se c.se d.se e.se f.se fh.se fhsk.se fhv.se g.se h.se i.se k.se komforb.se kommunalforbund.se komvux.se lanarb.se lanbib.se m.se n.se naturbruksgymn.se o.se parti.se pp.se press.se s.se sshn.se t.se tm.se u.se w.se x.se y.se z.se 
+idn.sg per.sg 
+co.st consulado.st embaixada.st principe.st saotome.st store.st 
+gob.sv red.sv 
+at.tf bg.tf ca.tf ch.tf cz.tf de.tf eu.tf pl.tf ru.tf sg.tf us.tf 
+ac.th co.th go.th in.th mi.th or.th 
+ac.tj co.tj go.tj web.tj 
+edunet.tn ens.tn fin.tn ind.tn intl.tn nat.tn rnrt.tn rns.tn rnu.tn tourism.tn 
+av.tr bbs.tr bel.tr dr.tr gen.tr k12.tr pol.tr web.tr 
+at.tt au.tt be.tt ca.tt co.tt de.tt dk.tt es.tt eu.tt fr.tt it.tt nic.tt se.tt uk.tt us.tt 
+co.tv 
+club.tw ebiz.tw game.tw idv.tw 
+ac.tz co.tz go.tz ne.tz or.tz 
+cherkassy.ua chernigov.ua chernovtsy.ua ck.ua cn.ua co.ua crimea.ua cv.ua dn.ua dnepropetrovsk.ua donetsk.ua dp.ua if.ua in.ua ivano-frankivsk.ua kh.ua kharkov.ua kherson.ua khmelnitskiy.ua kiev.ua kirovograd.ua km.ua kr.ua ks.ua kv.ua lg.ua lugansk.ua lutsk.ua lviv.ua mk.ua nikolaev.ua od.ua odessa.ua pl.ua poltava.ua rovno.ua rv.ua sebastopol.ua sumy.ua te.ua ternopil.ua uzhgorod.ua vinnica.ua vn.ua zaporizhzhe.ua zhitomir.ua zp.ua zt.ua 
+ac.ug co.ug go.ug ne.ug or.ug sc.ug 
+ac.uk bl.uk british-library.uk co.uk icnet.uk jet.uk ltd.uk me.uk mod.uk national-library-scotland.uk nhs.uk nic.uk nls.uk parliament.uk plc.uk police.uk sch.uk 
+ak.us al.us ar.us az.us ca.us co.us ct.us dc.us de.us dni.us fed.us fl.us ga.us hi.us ia.us id.us il.us in.us isa.us kids.us ks.us ky.us la.us ma.us md.us me.us mi.us mn.us mo.us ms.us mt.us nc.us nd.us ne.us nh.us nj.us nm.us nsn.us nv.us ny.us oh.us ok.us or.us pa.us ri.us sc.us sd.us tn.us tx.us ut.us va.us vt.us wa.us wi.us wv.us wy.us 
+gub.uy 
+vatican.va 
+arts.ve bib.ve co.ve firm.ve nom.ve rec.ve store.ve tec.ve web.ve 
+co.vi 
+ac.vn health.vn 
+ch.vu de.vu fr.vu 
+ac.za alt.za bourse.za city.za co.za law.za ngo.za nom.za school.za tm.za web.za 
+ac.zm co.zm sch.zm 
+ac.zw co.zw 
