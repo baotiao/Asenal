@@ -7,7 +7,6 @@ exheaders = [("User-Agent","Mozilla/4.0 (compatible; MSIE 7.1; Windows NT 5.1; S
 opener.addheaders=exheaders
 url_login = 'https://cs.login.cmu.edu/idp/Authn/Stateless'
 url_cmu = 'https://cs.login.cmu.edu'
-body = (('email','baotiao@gmail.com'), ('password','chenzongzhi'))
 req1 = opener.open(url_cmu, urllib.urlencode(body))
 req1 = opener.open(url_login, urllib.urlencode(body))
 response = urllib2.urlopen('https://cs.login.cmu.edu/idp/Authn/Stateless')

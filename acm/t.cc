@@ -22,15 +22,34 @@ using namespace std;
 #define N 16000010
 #define PRIME 999983
 
-void plusA(int &a)
+template <typename T>
+struct M;
+
+template <>
+struct M <int>
 {
-    a++;
-}
+};
 int main()
 {
-    int a = 10;
-    plusA(a);
-    printf("%d\n", a);
+    vector<vector<int> > vv;
+    vector<int> v;
+    v.push_back(1);
+
+    vector<int> v1;
+    v1.push_back(1);
+    v1.push_back(4);
+
+    vv.push_back(v);
+
+    vector<vector<int> >::iterator iter;
+    iter = find(vv.begin(), vv.end(), v1);
+
+    if (iter == vv.end()) {
+        printf("not find\n");
+    } else {
+        printf("found\n");
+    }
+
     return 0;
 }
 
