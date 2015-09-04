@@ -27,3 +27,9 @@
 *.out
 *.app
 a.out
+
+*.o
+*.s
+*tags
+main
+
