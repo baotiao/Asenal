@@ -24,11 +24,12 @@ using namespace std;
 #define MIN 0x80000000
 #define N 16000010
 #define PRIME 999983
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
-};
+  struct Interval {
+    int start;
+    int end;
+    Interval() : start(0), end(0) {}
+    Interval(int s, int e) : start(s), end(e) {}
+  };
 class Solution {
 #ifdef DEBUG
 #define debug(x) cout<<__LINE__<<" "<<#x<<"="<<x<<endl;
@@ -44,26 +45,38 @@ class Solution {
 #define N 16000010
 #define PRIME 999983
 public:
-  vector<pair<int, int> > getSkyline(vector<vector<int>>& buildings) {
 
-    vector<pair<int, int> > ans;
-
-    deque<pair<int, int> > dq;
-
-    pair<int, int> f, s;
-    for (int i = 0; i < buildings.size(); i++) {
-      f.first = buildings[i][0];
-      f.second = building[i][2];
-
-      s.first = buildings[i][1];
-      s.second = buildings[i][2];
-
-      while (!dq.empty() || (f.first > dq.front().first && f.second > dq.front().first)) {
-        dq.pop_front();
-      }
-      dq.push_front(f);
-
+  static bool cmp(Interval a, Interval b) {
+    return a.start < b.start;
+  }
+  vector<Interval> merge(vector<Interval>& intervals) {
+    vector<Interval> ans;
+    if (intervals.size() == 0) {
+      return ans;
     }
+
+    if (intervals.size() == 1) {
+      return intervals;
+    }
+    int st, ed;
+    sort(intervals.begin(), intervals.end(), cmp);
+
+    st = intervals[0].start;
+    ed = intervals[0].end;
+    for (int i = 1; i < intervals.size(); i++) {
+      if (ed < intervals[i].start) {
+        ans.push_back(Interval(st, ed));
+        st = intervals[i].start;
+        ed = intervals[i].end;
+      } else if (ed >= intervals[i].start && ed < intervals[i].end) {
+        ed = intervals[i].end;
+      } else {
+        continue;
+      }
+    }
+    ans.push_back(Interval(st, ed));
+
+    return ans;
 
   }
 };
@@ -73,7 +86,6 @@ int main()
 #ifdef DEBUG
   freopen("a", "r", stdin);
 #endif
-
 
   return 0;
 }

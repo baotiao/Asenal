@@ -5,6 +5,7 @@
 #include <string>
 #include <cmath> 
 #include <vector> 
+#include <stack>
 #include <queue> 
 #include <map>
 #include <ctime>
@@ -27,11 +28,11 @@ using namespace std;
 
 int main()
 {
-    #ifdef DEBUG
-    freopen("a", "r", stdin);
-    #endif
-    printf("%d %d\n", rand(), rand());
+#ifdef DEBUG
+  freopen("a", "r", stdin);
+#endif
+  printf("%d %d\n", rand(), rand());
 
-    return 0;
+  return 0;
 }
 

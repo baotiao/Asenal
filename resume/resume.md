@@ -32,34 +32,49 @@ Working at Qihoo's infrastructure team, Participated in building the Qihoo's Nos
 * Designed the cross data center architecture  
     In Qihoo, there is many data centers in used. Many server need visit same data in different data centers. So We designed the cross data center architecture. We have a message queue between each data center. We support three type of data conflict, timestamp, Yahoo's PNUTS primary key, Dynamo's vector clock. And we check the Increasing data in each data center every day.
 
- 
-<!--
-* upgrade hive version in production 
--->
+Design and develop Qihoo's redis like nosql Pika. The reason why we develop Pika is that redis has the storage limit, and the official cluster solution is not complete. 50G memory is large for a redis instance. Pika's storage engine is base on rocksdb, we build a multi data structure base on rocksdb, it called Nemo. Nemo use the rocksdb kv port implement multi data structure such as list, hash, zset. Because rocksbdb is base on disk, so it has much more capacity than redis. You can find more information in the github [pika][pika].
+
+
+[pika]: https://github.com/baotiao/pika
 
 ### Baidu, Beijing, China
 
-##### Senior Software Engineer - September 2013 to Present
+##### Software Engineer - April 2012 to September 2013
 
 Participated in Baidu Maps as Graph Engine Developer, develop the Baidu Maps self customized Map Engine.
 
-* The Distribute Label.  Rewrite the Label module, Label module is the most important module of Baidu Maps. Label module put all POI in the base map. Then we will calcalute a result that the sum of the rank is the largest. At first we do this module in single machine, each time ve need 8 hours.  After surveying, the rewrite module running in Hadoop only cost 2 hour.
+* The Distribute Label.  Rewrite the Label module, Label module is the most important module of Baidu Maps. Label module put all POI in the base map. Then we will calcalute a result that the sum of the rank is the largest. At first we do this module in single machine, each time ve need 8 hours.  After surveying, the rewrite module running in Hadoop only cost 2 hour.### Meituan, Beijing, China
+
+##### Software Engineer - July 2011 to April 2012
+
+As part of the Background development team, participated in the design and implementation of Meituan’s Web products. Developed strong skills on lamp
+
+* Lead to optimization the response speed of our background.  
+The main method we used is to optimization is add the mysql’s index. And add the memcached which is used for caching the most query to reduce the database query pressure.
+* Familiar with the Memcached’s source code.  Learn the source code, and share the implementation of Memcached with my groupmate. Then I analysis the use of Memcached in Meituan and make some recommendation.## Awards
+* 2014 Annual excellent employee of Qihoo
+* 2010 Bronze Medal The ACM-ICPC Asia Regional Contest, Hanzhou, October 2010
+* 2010 Bronze Medal The ACM-ICPC Asia Regional Contest, ShiChuan, September 2010
+
 ## Other Experience:
 
 ### Open Source community active user
 
 * Open source project  
-    * Mario  
-A Library that make the write from synchronous to asynchronous.
-<https://github.com/Qihoo360/Mario>
-    * Elog  
-    A erlang log library nif, simple and fast. Develop this log nif beacause in the situation of lots of message, lager will block the message queue
-    <https://github.com/Qihoo360/elog.git>
-    * Pika  
-    A nosql server wrap leveldb as storage engine and use multi thread model. Just write it for fun
-    <https://github.com/baotiao/pika>
+    * [Pika]   
+    A redis like nosql server wrap nemo as storage engine. I build it to solve the redis's memory limit.
+    * [Nemo]  
+     A library that provide multiply data structure. Such as map, hash, list, set. We build these data structure base on rocksdb.
+    * [Mario]  
+A Library that make the write from synchronous to asynchronous. It support two engine, you can save the buffer in memory or file.
+    * [Elog]  
+    A erlang log library nif, simple and fast. Develop this log nif beacause in the situation of lots of message, lager will block the message queue 
 
-* Read the source code of Memcached, lighttped, leveldb and summarize some articles in my blog.  
-Familar with redis, rocksdb, aerospike, riak source code.
+* Read the source code of Memcached, lighttped, leveldb and summarize some articles in my [Blog].  
+* Familar with redis, rocksdb, aerospike, mesos, ceph source code.
 
-
+[Pika]: https://github.com/baotiao/pika
+[Nemo]: https://github.com/baotiao/nemo
+[Mario]: https://github.com/Qihoo360/Mario
+[Elog]: https://github.com/Qihoo360/elog.git
+[Blog]: http://baotiao.github.io/

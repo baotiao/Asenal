@@ -1,3 +1,6 @@
-3 70
-5 25 50
-5 2 1
+4
+london:theatre,museums,monuments,food,parks,architecture,nightlife
+amsterdam:museums,shopping,architecture,nightlife,cycling,food,walking
+berlin:monuments,nightlife,food,architecture,city_trip
+paris:shopping,food,monuments,architecture,gourmet,walking,museums
+barcelona:architecture,shopping,beach,food,tapas,nightlife 
