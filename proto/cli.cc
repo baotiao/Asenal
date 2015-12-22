@@ -37,12 +37,11 @@ int main(int argv, char** argc){
   ping.set_port(9888);
 
   cout<<"size after serilizing is "<<ping.ByteSize()<<endl;
-  int siz = ping.ByteSize()+4;
+  int32_t siz = ping.ByteSize()+4;
+  int32_t u = htonl(siz);
   char *pkt = new char [siz];
-  google::protobuf::io::ArrayOutputStream aos(pkt,siz);
-  CodedOutputStream *coded_output = new CodedOutputStream(&aos);
-  coded_output->WriteVarint32(ping.ByteSize());
-  ping.SerializeToCodedStream(coded_output);
+  memcpy(pkt, &u, sizeof(int32_t));
+  ping.SerializeToArray(pkt + sizeof(int32_t), 10010);
 
   int host_port= 9211;
   char* host_name="127.0.0.1";
