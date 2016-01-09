@@ -1,35 +1,35 @@
-char *p;
 
-string str = "123";
-str.c_str();
+#include <iostream>
 
-"1323"
+using namespace std;
 
-
- fun(const string& str)
+class CBase
 {
+public:
+    virtual void act1()    {cout<<"CBase::act1()! ";    act2();}
+    void act2()        {cout<<"CBase::act2()! ";    act3();}
+    virtual void act3()    {cout<<"CBase::act3()! ";    act4();}
+    virtual void act4()    {cout<<"CBase::act4()! ";    act5();}
+    void act5()        {cout<<"CBase::act5()! ";    }
+};
 
+class CDerive :public CBase
+{
+public:
+    void act3()    {cout<<"CDerive::act3()! ";        act4();}
+    void act4()    {cout<<"CDerive::act4()! ";        act5();}    //此处的act5()调用CDerive类的act5
+    void act5()    {cout<<"CDerive::act5()! ";        }
+};
 
-    char buf[4];
-
-    str1 = substr(str.begin(), 1) + string(buf, 4) + substr(str.begin() + 2, str.end());
-    char *p = str.c_str();
-
-    char *newPtr = malloc(p.
-
-    return string;
-    p = realloc(len + 4);
-    string newStr(p);
-    return newStr;
+int main(void)
+{
+    CBase *pObj1=new CBase;
+    pObj1->act1();    //act5()不是虚函数，此处为静态绑定，调用CBase类的act5()
+    pObj1->act5();
+    cout<<endl;
+    CBase *pObj2=new CDerive;
+    pObj2->act1();
+    pObj2->act5();    //act5()不是虚函数，此处为静态绑定，调用CBase类的act5()
+    delete pObj1;
+    delete pObj2;
 }
-
-string str1 = fun(p);
-
-
-char *p = "str";
-
-string str(p);
-
-free(p);
-
-int a = (int)(p);

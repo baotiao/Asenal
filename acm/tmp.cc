@@ -26,6 +26,13 @@ using namespace std;
 #define N 16000010
 #define PRIME 999983
 
+struct TreeNode {
+  int val;
+  TreeNode *left;
+  TreeNode *right;
+  TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
 int main()
 {
 #ifdef DEBUG

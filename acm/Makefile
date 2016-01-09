@@ -1,6 +1,6 @@
 CXX = g++
-FLAGS = -Wall -W -DDEBUG -g -O0
-OBJECT = t1.cc
+FLAGS = -Wall -W -DDEBUG -g -O0 -std=c++11
+OBJECT = b.cc
 
 a.out: $(OBJECT)
 	$(CXX) $(FLAGS) $(OBJECT)

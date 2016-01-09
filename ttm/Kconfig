@@ -1,0 +1,7 @@
+#
+# IP Virtual Server configuration
+#
+config	IP_TTM
+	tristate "IP ttm support (EXPERIMENTAL)"
+	depends on INET
+	default m
