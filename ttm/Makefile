@@ -1,3 +1,4 @@
+CONFIG_MODULE_SIG=n
 # If KERNELRELEASE is defined, we've been invoked from the
 # kernel build system and can use its language.
 ifneq ($(KERNELRELEASE),)
@@ -13,5 +14,5 @@ else
 default:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 clean:
-	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c
+	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c Module.symvers modules.order
 endif

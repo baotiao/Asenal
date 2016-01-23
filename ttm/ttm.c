@@ -8,7 +8,7 @@ MODULE_LICENSE("GPL");
 module_param(debug_level, int, S_IRUGO);
 //MODULE_PARM_DESC(debug_level, "debug level");
 
-unsigned long sk_data_ready_addr = 0;
+/* unsigned long sk_data_ready_addr = 0; */
 
 //struct proc_dir_entry *ttm_dir_entry = NULL, *ttm_stats_entry = NULL;
 
@@ -109,7 +109,7 @@ inet_getname_ttm(struct socket *sock, struct sockaddr *uaddr, int *uaddr_len, in
 
 	/* set our value if need */
 	if (retval == 0 && NULL != sk->sk_user_data && peer) {
-		if (sk_data_ready_addr == (unsigned long) sk->sk_data_ready) {
+		/* if (sk_data_ready_addr == (unsigned long) sk->sk_data_ready) { */
 			memcpy(&tdata, &sk->sk_user_data, sizeof (tdata));
 			if (TCPOPT_TTM == tdata.opcode && TCPOLEN_TTM == tdata.opsize) {
 				TTM_INC_STATS(ext_stats, GETNAME_TTM_OK_CNT);
@@ -123,9 +123,9 @@ inet_getname_ttm(struct socket *sock, struct sockaddr *uaddr, int *uaddr_len, in
 				TTM_DBG(12, "inet_getname_ttm: invalid ttm data, ip %u.%u.%u.%u port %u opcode %u opsize %u\n",
 						NIPQUAD(tdata.ip), ntohs(tdata.port), tdata.opcode, tdata.opsize);
 			}
-		} else {
-			TTM_INC_STATS(ext_stats, GETNAME_TTM_BYPASS_CNT);
-		}
+		/* } else { */
+		/*   TTM_INC_STATS(ext_stats, GETNAME_TTM_BYPASS_CNT); */
+		/* } */
 	} else { /* no need to get client ip */
 		TTM_INC_STATS(ext_stats, GETNAME_TTM_EMPTY_CNT);
 	}
@@ -237,13 +237,13 @@ ttm_init(void)
 
 	/* get the address of function sock_def_readable
 	 * so later we can know whether the sock is for rpc, tux or others */
-	sk_data_ready_addr = kallsyms_lookup_name("sock_def_readable");
-	TTM_INFO("CPU [%u] sk_data_ready_addr = kallsyms_lookup_name(sock_def_readable) = %ld\n", 
-		 smp_processor_id(), sk_data_ready_addr);
-	if(0 == sk_data_ready_addr) {
-		TTM_INFO("cannot find sock_def_readable.\n");
-		goto proc_err;
-	}
+	/* sk_data_ready_addr = kallsyms_lookup_name("sock_def_readable"); */
+	/* TTM_INFO("CPU [%u] sk_data_ready_addr = kallsyms_lookup_name(sock_def_readable) = %ld %p\n",  */
+	/*    smp_processor_id(), sk_data_ready_addr, sk_data_ready_addr); */
+	/* if(0 == sk_data_ready_addr) { */
+	/*   TTM_INFO("cannot find sock_def_readable.\n"); */
+	/*   goto proc_err; */
+	/* } */
 
 	hook_ttm_functions();
 	TTM_INFO("ttm loaded\n");
