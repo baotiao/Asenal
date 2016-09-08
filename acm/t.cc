@@ -29,27 +29,35 @@ template <>
 struct M <int>
 {
 };
+
+inline int getp(int fenmu = 100) {
+  return rand() % fenmu;
+}
+
+inline bool cp(double p, int fenmu = 100) {
+  if ((int)(p * 100) > getp(fenmu)) {
+    return true;
+  }
+  return false;
+}
+
+inline bool cp(int p, int fenmu = 100) {
+  if (p > getp(fenmu)) {
+    return true;
+  }
+  return false;
+}
+
 int main()
 {
-    vector<vector<int> > vv;
-    vector<int> v;
-    v.push_back(1);
+  
+  srand(time(0));
+  double p = exp(0.5) * 0.1;
+  printf("%lf\n", p);
 
-    vector<int> v1;
-    v1.push_back(1);
-    v1.push_back(4);
 
-    vv.push_back(v);
 
-    vector<vector<int> >::iterator iter;
-    iter = find(vv.begin(), vv.end(), v1);
 
-    if (iter == vv.end()) {
-        printf("not find\n");
-    } else {
-        printf("found\n");
-    }
-
-    return 0;
+  return 0;
 }
 
