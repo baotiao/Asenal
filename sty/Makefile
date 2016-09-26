@@ -1,10 +1,23 @@
 CXX = g++
-FLAGS = -Wall -W -O2 -std=c++11 -DDEBUG -D__XDEBUG__
-OBJECT = second.cc
+CXXFLAGS = -Wall -O2 -std=c++11 -DDEBUG
+OBJECT = m1 m2
 
-a.out: $(OBJECT)
-	$(CXX) $(FLAGS) $(OBJECT) sty.h
+.PHONY = all m1 m2 clean
 
+all: $(OBJECT)
+	@echo "Success, go, go, go..."
+ 
+
+m1: model1.cc
+	$(CXX) $(CXXFLAGS) $^ sty.h xdebug.h
+	mv a.out m1
+
+m2: model2.cc
+	$(CXX) $(CXXFLAGS) $^ sty.h xdebug.h
+	mv a.out m2
+ 
 clean:
-	rm -rf a.out*
-
+	rm -rf $(OBJECT)
+	rm -rf *.o
+	rm -rf *.gch
+	rm -rf a.out

@@ -30,6 +30,11 @@ int vs[N];
  */
 int nbi[N];
 
+/*
+ * 邻居节点人数
+ */
+int nb[N];
+
 
 // ====================无标度网络==================
 /*
@@ -55,12 +60,12 @@ int n = N;
 /*
  * 康复的概率
  */
-double kfl = 0.3;
+double kfl = 0.2;
 
 /*
  * 感染概率
  */
-double beita = 0.1;
+double beita = 0.25;
 
 /*
  * 度
@@ -106,6 +111,15 @@ void storeArr(int from[], int to[], int len) {
   }
 }
 
+inline bool IsIn(const vector<int> &arr, const int num) {
+  for (int i = 0; i < arr.size(); i++) {
+    if (num == arr[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
 
 void BuildRegular()
 {
@@ -125,6 +139,18 @@ void BuildRegular()
       tmp = (tmp + n) % n;
       mp[i][tmp] = 1;
       mp[tmp][i] = 1;
+    }
+  }
+
+  /*
+   * 初始化邻居个数
+   */
+  clr(nb, 0);
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (mp[i][j] == 1) {
+        nb[i]++;
+      }
     }
   }
 
@@ -150,35 +176,91 @@ void BuildRegular()
 
 }
 
-void Build()
-{
-  /*
-   * 初始化这个图
-   */
-  clr(mp, 0);
-  int tmp;
+void UpdateDsum() {
+  dsum[0] = degree[0];
   for (int i = 0; i < n; i++) {
-    for (int j = 0; j <= ave_du / 2; j++) {
-      tmp = rand() % N;
-      if (i == tmp) {
+    dsum[i] = degree[i] + dsum[i - 1];
+  }
+
+  // for (int i = 0; i < n; i++) {
+  //   printf("%d ", dsum[i]);
+  // }
+  // printf("\n");
+}
+
+void BuildScaleFree()
+{
+
+  clr(mp, 0);
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < m; j++) {
+      if (i == j) {
         continue;
       }
-      mp[i][tmp] = 1;
-      mp[tmp][i] = 1;
+      mp[i][j] = 1;
+    }
+    degree[i] = m - 1;
+  }
+
+
+
+  UpdateDsum();
+  int tmp = m;
+  int du = m;
+  int tt;
+
+  vector<int> rep;
+  while (tmp < n) {
+    rep.clear();
+    while (rep.size() < (init_degree / 2)) {
+      tt = rand() % dsum[tmp - 1] + 1;
+      int i = 0;
+      for (i = 0; i < tmp; i++) {
+        if (tt <= dsum[i]) {
+          break;
+        }
+      }
+      if (IsIn(rep, i)) {
+        continue;
+      }
+      rep.push_back(i);
+    }
+
+    for (int i = 0; i < rep.size(); i++) {
+      mp[tmp][rep[i]] = 1;
+      mp[rep[i]][tmp] = 1;
+      degree[tmp]++;
+      degree[rep[i]]++;
+    }
+    UpdateDsum();
+
+    tmp++;
+  }
+  
+  /*
+   * 初始化邻居个数
+   */
+  clr(nb, 0);
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (mp[i][j] == 1) {
+        nb[i]++;
+      }
     }
   }
 
   /*
-   * 初始化每一个节点的状态
+   * 初始化感染节点
    */
   clr(status, 0);
-
-  for (int i = 0; i < origin; i++) {
-    status[i] = 1;
+  clr(vcn, 0);
+  clr(vs, 0);
+  for (int i = 0; i < 5; i++) {
+    status[i] = kI;
   }
-
+  
+  storeArr(status, sbak, n);
 }
-
 
 /*
  * 小世界网络断开的概率
@@ -189,7 +271,6 @@ int smallp = 10;
  * 小世界网络的平均度
  */
 int smalldu = 4;
-
 
 void BuildSmall()
 {
@@ -266,149 +347,31 @@ void BuildSmall()
   }
 
   /*
-   * 初始化每一个节点的状态
+   * 初始化邻居个数
    */
-  clr(status, 0);
-
-  for (int i = 0; i < origin; i++) {
-    status[i] = 1;
-  }
-}
-
-inline bool IsIn(const vector<int> &arr, const int num) {
-  for (int i = 0; i < arr.size(); i++) {
-    if (num == arr[i]) {
-      return true;
-    }
-  }
-  return false;
-}
-
-void UpdateDsum() {
-  dsum[0] = degree[0];
-  for (int i = 0; i < n; i++) {
-    dsum[i] = degree[i] + dsum[i - 1];
-  }
-
-  // for (int i = 0; i < n; i++) {
-  //   printf("%d ", dsum[i]);
-  // }
-  // printf("\n");
-}
-
-
-void BuildScaleFree()
-{
-
-  clr(mp, 0);
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < m; j++) {
-      if (i == j) {
-        continue;
-      }
-      mp[i][j] = 1;
-    }
-    degree[i] = m - 1;
-  }
-
-
-  UpdateDsum();
-
-  int tmp = m;
-  int du = m;
-  int tt;
-
-  vector<int> rep;
-  while (tmp < n) {
-    rep.clear();
-    while (rep.size() < (init_degree / 2)) {
-      tt = rand() % dsum[tmp - 1] + 1;
-      int i = 0;
-      for (i = 0; i < tmp; i++) {
-        if (tt <= dsum[i]) {
-          break;
-        }
-      }
-      if (IsIn(rep, i)) {
-        continue;
-      }
-      rep.push_back(i);
-    }
-
-    for (int i = 0; i < rep.size(); i++) {
-      mp[tmp][rep[i]] = 1;
-      mp[rep[i]][tmp] = 1;
-      degree[tmp]++;
-      degree[rep[i]]++;
-    }
-    UpdateDsum();
-
-    tmp++;
-  }
-  
-}
-
-bool CheckDegree()
-{
-  clr(degree, 0);
+  clr(nb, 0);
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      degree[i] += mp[i][j];
+      if (mp[i][j] == 1) {
+        nb[i]++;
+      }
     }
   }
 
-  int sum = 0;
-  for (int i = 0; i < n; i++) {
-    debug(degree[i]);
-    sum += degree[i];
+  /*
+   * 初始化感染节点
+   */
+  clr(status, 0);
+  clr(vcn, 0);
+  clr(vs, 0);
+  for (int i = 0; i < 5; i++) {
+    status[i] = kI;
   }
-  debug(sum);
-
-  for (int i = 0; i < n; i++) {
-    if (degree[i] != smalldu) {
-      return false;
-    }
-  }
-  return true;
+  
+  storeArr(status, sbak, n);
 }
-
 
 int seed = 36;
-
-void BuildScheld()
-{
-  clr(mp, 0);
-
-  n = seed;
-
-  BuildSmall();
-
-  n = N;
-
-  int arr[10];
-  /*
-   * 无标度网络里面的度
-   */
-  int cntm = 4;
-  int cnt = 0;
-  int tmp;
-
-  for (int i = seed + 1; i < n; i++) {
-
-    for (int j = 0; j < cntm; j++) {
-      // do {
-      //   tmp = rand() % i;
-      //   for (int k = 0; k < cnt; k++) {
-      //   }
-      // } while ();
-
-      arr[cnt++] = tmp;
-
-    }
-
-  }
-
-}
 
 void Print()
 {
@@ -490,72 +453,55 @@ void Process()
   double ivw = 0.1;
 
 
-  printf("Tick, S, V, I, R\n");
+  printf("Tick, S, I, R\n");
   statics();
 
-  printf("%d, %d, %d, %d, %d\n", 0, cs, tv, ci, cr);
+  printf("%d, %d, %d, %d\n", 0, cs, ci, cr);
+  int tot_nbi = 0;
   while (1) {
+    clr(nbi, 0);
+    tot_nbi = 0;
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS && vcn[i] == kNo) {
-        /*
-         * v * e ^ (a * is - b * iv)
-         * v = ivw
-         * iir = a
-         * vir = b
-         */
-
-        double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
-        // log_info("%lf", (iir * is - vir * iv) / n);
-        // log_info("p %lf", p);
-        if (cp(p)) {
-          vcn[i] = kYes;
-          if (cp(ir)) {
-            vs[i] = kSucc;
-          } else {
-            vs[i] = kFail;
-          }
+      for (int j = 0; j < n; j++) {
+        if (mp[i][j] == 1 && status[j] == kI) {
+          nbi[i]++;
         }
       }
-    }
-    for (int i = 0; i < n; i++) {
-      if (status[i] == kS && vcn[i] == kNo) {
 
-        double p = beita * (1.0 - ((iir * is) / (1.0 + iir * is))) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
-        // log_info("first p %lf %d", p, nbi[i]);
-        p = 1 - p;
-        p = pow(p, nbi[i]);
-        p = 1 - p;
-        // log_info("p %lf", p);
-        if (cp(p)) {
-          sbak[i] = kI;
-        }
-      } else if (status[i] == kS && vcn[i] == kYes && vs[i] == kFail) {
-        double p = 1 - beita;
-        p = pow(p, nbi[i]);
-        p = 1 - p;
-        if (cp(p)) {
-          sbak[i] = kI;
+      if (status[i] == kI) {
+        tot_nbi++;
+      }
+    }
+
+    double a = 2.0;
+    for (int i = 0; i < n; i++) {
+      if (status[i] == kS) {
+        double bt = beita * exp(-1 * a * ((double)tot_nbi / (double)n));
+        // double bt = beita;
+        double pt = 1 - pow((1 - bt), (double)nbi[i]);
+        debug(i);
+        debug(bt);
+        debug(pt);
+        debug(nbi[i]);
+        debug(nb[i]);
+        // sleep(1);
+        if (cp(pt)) {
+          // debug("here");
+          sbak[i] = kI; 
         }
       } else if (status[i] == kI) {
         if (cp(kfl)) {
           sbak[i] = kR;
         }
       } else {
+        continue;
       }
     }
     storeArr(sbak, status, n);
 
     statics();
-    printf("%d, %d, %d, %d, %d\n", cnt++, cs, tv, ci, cr);
+    printf("%d, %d, %d, %d\n", cnt++, cs, ci, cr);
 
-    clr(nbi, 0);
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (mp[i][j] == 1) {
-          nbi[i]++;
-        }
-      }
-    }
 
     if (ci == 0) {
       // log_info("judje success");
@@ -568,11 +514,9 @@ int main()
 {
 
   srand(time(0));
-  BuildRegular();
-  // Build();
+  // BuildRegular();
+  BuildScaleFree();
   // BuildSmall();
-  // BuildScaleFree();
-
   /*
    * 检查每个节点的度数
    */
