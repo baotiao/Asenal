@@ -21,8 +21,14 @@ int status[N];
 int sbak[N];
 int degree[N];
 
+/*
+ * 是否接种
+ */
 int vcn[N];
 
+/*
+ * 接种是否成功
+ */
 int vs[N];
 
 /*
@@ -75,8 +81,13 @@ int init_degree = 4;
 /*
  * 疫苗有效率
  */
-double ir = 0.5;
+double ir = 0.7;
 
+/*
+ * 定义这个迭代的次数
+ */
+
+int cnt = 0;
 
 /*
  * utility functions
@@ -160,7 +171,7 @@ void BuildRegular()
   clr(status, 0);
   clr(vcn, 0);
   clr(vs, 0);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 10; i++) {
     status[i] = kI;
   }
   /*
@@ -255,7 +266,7 @@ void BuildScaleFree()
   clr(status, 0);
   clr(vcn, 0);
   clr(vs, 0);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 10; i++) {
     status[i] = kI;
   }
   
@@ -298,8 +309,6 @@ void BuildSmall()
   for (int i = 0; i < n; i++) {
     for (int j = i + 1; j < n; j++) {
       if (mp[i][j] == 1 && rand() % 100 <= smallp) {
-        debug(i);
-        debug(j);
         mp[i][j] = 0;
         mp[j][i] = 0;
         v.push_back(i);
@@ -308,16 +317,12 @@ void BuildSmall()
     }
   }
 
-  debug(v.size());
 
   int l, r;
   int vl, vr;
   
   while (1) {
-    debug(v.size());
     if (v.size() == 2) {
-      debug(v[0]);
-      debug(v[1]);
       mp[v[0]][v[1]] = 1;
       mp[v[1]][v[0]] = 1;
       break;
@@ -329,7 +334,6 @@ void BuildSmall()
     v.erase(v.begin() + l, v.begin() + l + 1);
 
 
-    debug(v.size());
     r = rand() % v.size();
     while (vl == v[r] || mp[vl][v[r]] == 1) {
       r = rand() % v.size();
@@ -337,8 +341,6 @@ void BuildSmall()
     vr = v[r];
     v.erase(v.begin() + r, v.begin() + r + 1);
 
-    debug(vl);
-    debug(vr);
     if (vl == vr) {
       here;
     }
@@ -364,7 +366,7 @@ void BuildSmall()
   clr(status, 0);
   clr(vcn, 0);
   clr(vs, 0);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 10; i++) {
     status[i] = kI;
   }
   
@@ -400,6 +402,7 @@ int cs = 0, ci = 0, cr = 0;
  * is 是没有接种&感染
  * iv 接种&感染
  * cv 接种并且未被感染
+ * tv 总的接种人数
  *
  */
 int cv = 0, is = 0, iv = 0;
@@ -413,29 +416,22 @@ void statics()
     if (vcn[i] == kYes) {
       tv++;
     }
-    if (status[i] == kS && vcn[i] == kNo) {
-      cs++;
-    } else if (status[i] == kS && vcn[i] == kYes) {
+    if (status[i] == kS && vcn[i] == kYes && vs[i] == kSucc) {
       cv++;
-    } else if (status[i] == kI && vcn[i] == kNo) {
+    } else if (status[i] == kI) {
       ci++;
-      is++;
-    } else if (status[i] == kI && vcn[i] == kYes) {
-      ci++;
-      iv++;
     } else if (status[i] == kR) {
       cr++;
     }
   }
+  if (cnt == 0) {
+    printf("Tick, R, I, V, Vs\n");
+  }
+  printf("%d, %d, %d, %d, %d\n", cnt++, cr, ci, tv, cv);
 }
 
 void Process()
 {
-  /*
-   * 定义这个迭代的次数
-   */
-
-  int cnt = 1;
 
   /*
    * infection information rate
@@ -453,10 +449,8 @@ void Process()
   double ivw = 0.1;
 
 
-  printf("Tick, S, I, R\n");
   statics();
 
-  printf("%d, %d, %d, %d\n", 0, cs, ci, cr);
   int tot_nbi = 0;
   while (1) {
     clr(nbi, 0);
@@ -475,17 +469,34 @@ void Process()
 
     double a = 0.2;
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS) {
-        double bt = beita * exp(-1 * a * ((double)tot_nbi));
-        // debug(bt);
-        // sleep(0.1);
-        // double bt = beita;
+      if (status[i] == kS && vcn[i] == kNo) {
+        /*
+         * v * e ^ (a * is - b * iv)
+         * v = ivw
+         * iir = a
+         * vir = b
+         */
+
+        // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
+        double p = 1 - exp(-1 * a * ((double)tot_nbi));
+        // debug(tot_nbi);
+        // debug(p);
+        // sleep(1);
+        if (cp(p)) {
+          vcn[i] = kYes;
+          if (cp(ir)) {
+            vs[i] = kSucc;
+          } else {
+            vs[i] = kFail;
+          }
+        }
+      }
+    }
+    for (int i = 0; i < n; i++) {
+      if (status[i] == kS && (vcn[i] == kNo || (vcn[i] == kYes && vs[i] == kFail))) {
+        // double bt = beita * exp(-1 * a * ((double)tot_nbi / (double)n));
+        double bt = beita;
         double pt = 1 - pow((1 - bt), (double)nbi[i]);
-        // debug(i);
-        // debug(bt);
-        // debug(pt);
-        // debug(nbi[i]);
-        // debug(nb[i]);
         // sleep(1);
         if (cp(pt)) {
           // debug("here");
@@ -496,14 +507,20 @@ void Process()
           sbak[i] = kR;
         }
       } else {
-        continue;
       }
     }
     storeArr(sbak, status, n);
 
     statics();
-    printf("%d, %d, %d, %d\n", cnt++, cs, ci, cr);
 
+    clr(nbi, 0);
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (mp[i][j] == 1) {
+          nbi[i]++;
+        }
+      }
+    }
 
     if (ci == 0) {
       // log_info("judje success");

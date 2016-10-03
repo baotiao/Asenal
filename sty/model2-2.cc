@@ -81,7 +81,7 @@ int init_degree = 4;
 /*
  * 疫苗有效率
  */
-double ir = 0.5;
+double ir = 0.7;
 
 /*
  * 定义这个迭代的次数
@@ -452,6 +452,8 @@ void Process()
   statics();
 
   int tot_nbi = 0;
+  int tot_is = 0;
+  int tot_iv = 0;
   while (1) {
     clr(nbi, 0);
     tot_nbi = 0;
@@ -462,12 +464,15 @@ void Process()
         }
       }
 
-      if (status[i] == kI) {
-        tot_nbi++;
+      if (status[i] == kI && vcn[i] == kNo) {
+        tot_is++;
+      } else if (status[i] == kI && vcn[i] == kYes) {
+        tot_iv++;
       }
     }
 
-    double a = 2.0;
+    double a = 0.2;
+    double b = 0.7;
     for (int i = 0; i < n; i++) {
       if (status[i] == kS && vcn[i] == kNo) {
         /*
@@ -478,7 +483,8 @@ void Process()
          */
 
         // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
-        double p = 1 - exp(-1 * a * ((double)tot_nbi / (double)n));
+        double p = 1 - exp(-1 * a * ((double)tot_is));
+        p = p * exp(-1 * b * tot_iv);
         // debug(tot_nbi);
         // debug(p);
         // sleep(1);
@@ -533,8 +539,8 @@ int main()
 {
 
   srand(time(0));
-  BuildRegular();
-  // BuildScaleFree();
+  // BuildRegular();
+  BuildScaleFree();
   // BuildSmall();
   /*
    * 检查每个节点的度数
