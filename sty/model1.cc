@@ -72,10 +72,6 @@ double beita = 0.25;
  */
 int init_degree = 4;
 
-/*
- * 疫苗有效率
- */
-double ir = 0.5;
 
 
 /*
@@ -477,16 +473,7 @@ void Process()
     for (int i = 0; i < n; i++) {
       if (status[i] == kS) {
         double bt = beita * exp(-1 * a * ((double)tot_nbi));
-        // debug(bt);
-        // sleep(0.1);
-        // double bt = beita;
         double pt = 1 - pow((1 - bt), (double)nbi[i]);
-        // debug(i);
-        // debug(bt);
-        // debug(pt);
-        // debug(nbi[i]);
-        // debug(nb[i]);
-        // sleep(1);
         if (cp(pt)) {
           // debug("here");
           sbak[i] = kI; 

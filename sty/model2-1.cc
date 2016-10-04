@@ -78,10 +78,6 @@ double beita = 0.25;
  */
 int init_degree = 4;
 
-/*
- * 疫苗有效率
- */
-double ir = 0.7;
 
 /*
  * 定义这个迭代的次数

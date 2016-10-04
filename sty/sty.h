@@ -40,4 +40,11 @@ enum Vs {
   kSucc = 1,
 };
 
+// global variable
+
+/*
+ * 疫苗有效率
+ */
+extern double ir = 0.7;
+
 #endif

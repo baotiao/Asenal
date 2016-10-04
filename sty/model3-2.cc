@@ -480,7 +480,7 @@ void Process()
 
         // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
         double p = 1 - exp(-1 * a * ((double)tot_is));
-        p = p * exp(-1 * b * tot_iv);
+        p = p * exp(-1 * b * (double)tot_iv);
         if (cp(p)) {
           vcn[i] = kYes;
           if (cp(ir)) {
@@ -492,11 +492,15 @@ void Process()
       }
     }
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS && (vcn[i] == kNo || (vcn[i] == kYes && vs[i] == kFail))) {
-        // double bt = beita * exp(-1 * a * ((double)tot_nbi / (double)n));
-        double bt = beita;
-        double pt = 1 - pow((1 - bt), (double)nbi[i]);
-        // sleep(1);
+      if (status[i] == kS) {
+        double bt = 0, pt = 0;
+        if (vcn[i] == kNo) {
+          bt = beita * exp(-1 * a * ((double)tot_is) - b * (double)tot_iv);
+          pt = 1 - pow((1 - bt), (double)nbi[i]);
+        } else if (vcn[i] == kYes && vs[i] == kFail) {
+          bt = beita;
+          pt = 1 - pow((1 - bt), (double)nbi[i]);
+        }
         if (cp(pt)) {
           // debug("here");
           sbak[i] = kI; 
