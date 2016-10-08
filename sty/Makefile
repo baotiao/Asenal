@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -O2 -std=c++11 -DDEBUG
-OBJECT = m1 m21 m22 m31 m32
+OBJECT = m1 m21 m22 m31 m32 p
 
 .PHONY = all $(OBJECT) clean
 
@@ -27,6 +27,10 @@ m31: model3-1.cc
 m32: model3-2.cc
 	$(CXX) $(CXXFLAGS) $^ sty.h xdebug.h
 	mv a.out m32
+
+p: pprocess.cc
+	$(CXX) $(CXXFLAGS) $^ xdebug.h
+	mv a.out p
 
 clean:
 	rm -rf $(OBJECT)

@@ -479,7 +479,6 @@ int main(int argc, char **argv)
     int iir = atoi(argv[1]);
     ir = (double)iir / 100.00;
   }
-  printf("ir %lf\n", ir);
 
   srand(time(0));
   // BuildRegular();
