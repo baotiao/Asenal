@@ -12,8 +12,8 @@
 #include <map>
 #include <ctime>
 #include <set>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <time.h>
 #include "xdebug.h"
 
@@ -45,6 +45,16 @@ enum Vs {
 /*
  * 疫苗有效率
  */
-extern double ir = 0.7;
+double ir = 0.7;
 
+
+/*
+ * 疾病信息的播报率
+ */
+double a = 0.2;
+
+/*
+ * 疫苗信息的播报率
+ */
+double b = 0.7;
 #endif

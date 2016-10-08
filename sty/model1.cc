@@ -73,6 +73,11 @@ double beita = 0.25;
 int init_degree = 4;
 
 
+/*
+ * 定义这个迭代的次数
+ */
+
+int cnt = 0;
 
 /*
  * utility functions
@@ -294,8 +299,6 @@ void BuildSmall()
   for (int i = 0; i < n; i++) {
     for (int j = i + 1; j < n; j++) {
       if (mp[i][j] == 1 && rand() % 100 <= smallp) {
-        debug(i);
-        debug(j);
         mp[i][j] = 0;
         mp[j][i] = 0;
         v.push_back(i);
@@ -304,16 +307,12 @@ void BuildSmall()
     }
   }
 
-  debug(v.size());
 
   int l, r;
   int vl, vr;
   
   while (1) {
-    debug(v.size());
     if (v.size() == 2) {
-      debug(v[0]);
-      debug(v[1]);
       mp[v[0]][v[1]] = 1;
       mp[v[1]][v[0]] = 1;
       break;
@@ -325,7 +324,6 @@ void BuildSmall()
     v.erase(v.begin() + l, v.begin() + l + 1);
 
 
-    debug(v.size());
     r = rand() % v.size();
     while (vl == v[r] || mp[vl][v[r]] == 1) {
       r = rand() % v.size();
@@ -333,8 +331,6 @@ void BuildSmall()
     vr = v[r];
     v.erase(v.begin() + r, v.begin() + r + 1);
 
-    debug(vl);
-    debug(vr);
     if (vl == vr) {
       here;
     }
@@ -423,36 +419,16 @@ void statics()
       cr++;
     }
   }
+  if (cnt == 0) {
+    printf("Tick, S, I, R\n");
+  }
+  printf("%d, %d, %d, %d\n", cnt++, cs, ci, cr);
 }
 
 void Process()
 {
-  /*
-   * 定义这个迭代的次数
-   */
-
-  int cnt = 1;
-
-  /*
-   * infection information rate
-   */
-  double iir = 0.02;
-
-  /*
-   * vacination informationrate
-   */
-  double vir = 0.02;
-
-  /*
-   * initial vacination wish
-   */
-  double ivw = 0.1;
-
-
-  printf("Tick, S, I, R\n");
   statics();
 
-  printf("%d, %d, %d, %d\n", 0, cs, ci, cr);
   int tot_nbi = 0;
   while (1) {
     clr(nbi, 0);
@@ -475,7 +451,6 @@ void Process()
         double bt = beita * exp(-1 * a * ((double)tot_nbi));
         double pt = 1 - pow((1 - bt), (double)nbi[i]);
         if (cp(pt)) {
-          // debug("here");
           sbak[i] = kI; 
         }
       } else if (status[i] == kI) {
@@ -489,7 +464,6 @@ void Process()
     storeArr(sbak, status, n);
 
     statics();
-    printf("%d, %d, %d, %d\n", cnt++, cs, ci, cr);
 
 
     if (ci == 0) {
@@ -499,8 +473,13 @@ void Process()
   }
 }
 
-int main()
+int main(int argc, char **argv)
 {
+  if (argc == 2) {
+    int iir = atoi(argv[1]);
+    ir = (double)iir / 100.00;
+  }
+  printf("ir %lf\n", ir);
 
   srand(time(0));
   // BuildRegular();

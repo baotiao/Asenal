@@ -429,22 +429,6 @@ void statics()
 void Process()
 {
 
-  /*
-   * infection information rate
-   */
-  double iir = 0.02;
-
-  /*
-   * vacination informationrate
-   */
-  double vir = 0.02;
-
-  /*
-   * initial vacination wish
-   */
-  double ivw = 0.1;
-
-
   statics();
 
   int tot_nbi = 0;
@@ -463,7 +447,6 @@ void Process()
       }
     }
 
-    double a = 0.2;
     for (int i = 0; i < n; i++) {
       if (status[i] == kS && vcn[i] == kNo) {
         /*
@@ -525,9 +508,12 @@ void Process()
   }
 }
 
-int main()
+int main(int argc, char **argv)
 {
-
+  if (argc == 2) {
+    int iir = atoi(argv[1]);
+    ir = (double)iir / 100.0;
+  }
   srand(time(0));
   // BuildRegular();
   BuildScaleFree();
