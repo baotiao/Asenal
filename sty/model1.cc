@@ -445,7 +445,6 @@ void Process()
       }
     }
 
-    double a = 0.2;
     for (int i = 0; i < n; i++) {
       if (status[i] == kS) {
         double bt = beita * exp(-1 * a * ((double)tot_nbi));

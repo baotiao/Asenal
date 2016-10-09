@@ -44,7 +44,7 @@ int main(int argc, char **argv)
     getline(std::cin, tmp);
     int a, b;
     int i = 0;
-    while (scanf("%d, %d, %d, %d", &a, &a, &a, &b) != EOF) {
+    while (scanf("%d, %d, %d, %d, %d", &a, &b, &a, &a, &a) != EOF) {
       res[i] += b;
       i++;
       max_len = max(max_len, i);
