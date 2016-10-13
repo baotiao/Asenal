@@ -510,10 +510,17 @@ void Process()
 
 int main(int argc, char **argv)
 {
-  if (argc == 2) {
+  if (argc == 4) {
     int iir = atoi(argv[1]);
-    ir = (double)iir / 100.0;
+    ir = (double)iir / 100.00;
+    int ia = atoi(argv[2]);
+    a = (double)ia / 100.00;
+    int ib = atoi(argv[3]);
+    b = (double)ib / 100.00;
   }
+  debug(ir);
+  debug(a);
+  debug(b);
   srand(time(0));
   // BuildRegular();
   BuildScaleFree();

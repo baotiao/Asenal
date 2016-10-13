@@ -51,10 +51,10 @@ double ir = 0.7;
 /*
  * 疾病信息的播报率
  */
-double a = 0.2;
+double a = 0.7;
 
 /*
  * 疫苗信息的播报率
  */
-double b = 0.7;
+double b = 0.2;
 #endif

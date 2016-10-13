@@ -2,42 +2,16 @@
 
 rm -rf *_res;
 
-# rm -rf ./res_m1*
-# for ((i = 0; i < 100; i=( $i + 1) ))
-# do
-#   ./m1 70 >> ./res_m1$i;
-# done
 
-# ./p res_m1 > ./pic_0.7
-
-# rm -rf ./res_m1*
-# for ((i = 0; i < 100; i=( $i + 1) ))
-# do
-#   ./m1 80  >> ./res_m1$i;
-# done
-
-# ./p res_m1 > ./pic_0.8
-
-
-# rm -rf ./res_m1*
-# for ((i = 0; i < 100; i=( $i + 1) ))
-# do
-#   ./m1 90  >> ./res_m1$i;
-# done
-
-# ./p res_m1 > ./pic_0.9
-
-# rm -rf ./res_m1*
-# for ((i = 0; i < 100; i=( $i + 1) ))
-# do
-#   ./m1 100  >> ./res_m1$i;
-# done
-
-# ./p res_m1 > ./pic_1.0
-
-
-# rm -rf ./res_m1*
-
+for ((j = 70; j < 101; j=( $j + 10) ))
+do
+  rm -rf ./res_m1*
+  for ((i = 0; i < 100; i=( $i + 1) ))
+  do
+    ./m1 $j  >> ./res_m1$i;
+  done
+  ./p res_m1 > ./pic_1_$j;
+done
 for ((j = 70; j < 101; j=( $j + 10) ))
 do
   rm -rf ./res_m21*
