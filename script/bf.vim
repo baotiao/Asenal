@@ -15,3 +15,5 @@
 :%s/^\_s\+$//g
 "在相邻函数实现加上换行
 :%s/^}\_s\(Status\|int\|void\|bool\)/}\r\r\1/g
+" Add blank after comment
+:%s/\(.*\)\/\/\([^ ]\)\(.*\)/\1\/\/ \2\3/g

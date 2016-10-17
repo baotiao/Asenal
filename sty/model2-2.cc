@@ -403,11 +403,16 @@ int cs = 0, ci = 0, cr = 0;
  */
 int cv = 0, is = 0, iv = 0;
 int tv = 0;
+
+int ptv;
+
 void statics()
 {
+  ptv = tv;
   cs = 0, ci = 0, cr = 0;
   cv = 0; is = 0, iv = 0;
   tv = 0;
+  
   for (int i = 0; i < n; i++) {
     if (vcn[i] == kYes) {
       tv++;
@@ -423,7 +428,7 @@ void statics()
   if (cnt == 0) {
     printf("Tick, R, I, V, Vs\n");
   }
-  printf("%d, %d, %d, %d, %d\n", cnt++, cr, ci, tv, cv);
+  printf("%d, %d, %d, %d, %d, %d\n", cnt++, cr, ci, tv, tv - ptv, cv);
 }
 
 void Process()
@@ -436,6 +441,8 @@ void Process()
   while (1) {
     clr(nbi, 0);
     tot_nbi = 0;
+    tot_is = 0;
+    tot_iv = 0;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         if (mp[i][j] == 1 && status[j] == kI) {
@@ -450,6 +457,14 @@ void Process()
       }
     }
 
+    debug(tot_is);
+    debug(tot_iv);
+    double p1 = 1 - exp(-1 * a * static_cast<double>(tot_is) / 1000.00);
+    double p2 = exp(-1 * b * static_cast<double>(tot_iv) / 10.00); 
+    double p3 = p1 * p2;
+    debug(p1);
+    debug(p2);
+    debug(p3);
     for (int i = 0; i < n; i++) {
       if (status[i] == kS && vcn[i] == kNo) {
         /*
@@ -460,8 +475,9 @@ void Process()
          */
 
         // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
-        double p = 1 - exp(-1 * a * ((double)tot_is));
-        p = p * exp(-1 * b * tot_iv);
+        double p = 1 - exp(-1 * a * static_cast<double>(tot_is) / 1000.00);
+        p = p * exp(-1 * b * static_cast<double>(tot_iv) / 10.00);
+        // p = p * 0.09;
         if (cp(p)) {
           vcn[i] = kYes;
           if (cp(ir)) {
@@ -521,6 +537,7 @@ int main(int argc, char **argv)
   }
   debug(a);
   debug(b);
+  debug(ir);
   srand(time(0));
   // BuildRegular();
   BuildScaleFree();
