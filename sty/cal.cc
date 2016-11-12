@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cmath>
 
-int main()
+int main(int argc, char *argv[])
 {
-  double a = exp(-20);
+  double a = atof(argv[1]);
+  a = exp(a);
   printf("%lf\n", a);
-  printf("%lf\n", 1 - a);
   return 0;
 }

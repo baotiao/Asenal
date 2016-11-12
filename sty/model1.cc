@@ -58,16 +58,6 @@ int ave_du = 4;
 int n = N;
 
 /*
- * 康复的概率
- */
-double kfl = 0.2;
-
-/*
- * 感染概率
- */
-double beita = 0.25;
-
-/*
  * 度
  */
 int init_degree = 4;
@@ -356,7 +346,7 @@ void BuildSmall()
   clr(status, 0);
   clr(vcn, 0);
   clr(vs, 0);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 10; i++) {
     status[i] = kI;
   }
   
@@ -445,9 +435,11 @@ void Process()
       }
     }
 
+    // debug(exp(-1.0 * 0.01 * a * ((double)tot_nbi)));
     for (int i = 0; i < n; i++) {
       if (status[i] == kS) {
-        double bt = beita * exp(-1 * a * ((double)tot_nbi));
+        // double bt = beita * exp(-1.0 * 0.1 * a * ((double)tot_nbi));
+        double bt = beita;
         double pt = 1 - pow((1 - bt), (double)nbi[i]);
         if (cp(pt)) {
           sbak[i] = kI; 
@@ -482,11 +474,10 @@ int main(int argc, char **argv)
     int ib = atoi(argv[3]);
     b = (double)ib / 100.00;
   }
-
   srand(time(0));
   // BuildRegular();
-  BuildScaleFree();
-  // BuildSmall();
+  // BuildScaleFree();
+  BuildSmall();
   /*
    * 检查每个节点的度数
    */

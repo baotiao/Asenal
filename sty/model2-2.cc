@@ -64,16 +64,6 @@ int ave_du = 4;
 int n = N;
 
 /*
- * 康复的概率
- */
-double kfl = 0.2;
-
-/*
- * 感染概率
- */
-double beita = 0.25;
-
-/*
  * 度
  */
 int init_degree = 4;
@@ -428,7 +418,7 @@ void statics()
   if (cnt == 0) {
     printf("Tick, R, I, V, Vs\n");
   }
-  printf("%d, %d, %d, %d, %d, %d\n", cnt++, cr, ci, tv, tv - ptv, cv);
+  printf("%d, %d, %d, %d, %d\n", cnt++, cr, ci, tv, cv);
 }
 
 void Process()
@@ -436,35 +426,50 @@ void Process()
   statics();
 
   int tot_nbi = 0;
-  int tot_is = 0;
+  int tot_v = 0;
   int tot_iv = 0;
+  int tot_pre_is = 0;
+  int tot_pre_iv = 0;
   while (1) {
     clr(nbi, 0);
     tot_nbi = 0;
-    tot_is = 0;
+    /*
+     * 接种过的人
+     */
+    tot_v = 0;
+    /*
+     * 接种过, 并且被感染过的人
+     */
     tot_iv = 0;
+
+    /*
+     * 没有接种过疫苗, 并且被感染过的人
+     */
+    tot_pre_is = 0;
+    /*
+     * 接种过疫苗, 又感染的人
+     */
+    tot_pre_iv = 0;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         if (mp[i][j] == 1 && status[j] == kI) {
           nbi[i]++;
         }
       }
-
-      if (status[i] == kI && vcn[i] == kNo) {
-        tot_is++;
-      } else if (status[i] == kI && vcn[i] == kYes) {
+      if (vcn[i] == kYes) {
+        tot_v++;
+      }
+      if (vcn[i] == kYes && (status[i] == kI || status[i] == kR)) {
         tot_iv++;
+      }
+      if (vcn[i] == kNo && status[i] == kI) {
+        tot_pre_is++;
+      }
+      if (vcn[i] == kYes && status[i] == kI) {
+        tot_pre_iv++;
       }
     }
 
-    debug(tot_is);
-    debug(tot_iv);
-    double p1 = 1 - exp(-1 * a * static_cast<double>(tot_is) / 1000.00);
-    double p2 = exp(-1 * b * static_cast<double>(tot_iv) / 10.00); 
-    double p3 = p1 * p2;
-    debug(p1);
-    debug(p2);
-    debug(p3);
     for (int i = 0; i < n; i++) {
       if (status[i] == kS && vcn[i] == kNo) {
         /*
@@ -475,9 +480,19 @@ void Process()
          */
 
         // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
-        double p = 1 - exp(-1 * a * static_cast<double>(tot_is) / 1000.00);
-        p = p * exp(-1 * b * static_cast<double>(tot_iv) / 10.00);
-        // p = p * 0.09;
+        // double p = 1 - exp(-1.0 * 0.05 * a * static_cast<double>(tot_is));
+        // p = p * exp(-1.0 * 0.05 * b * static_cast<double>(tot_iv));
+        
+        double pv;
+        if (tot_v != 0) {
+          pv = c + b * (static_cast<double>(tot_iv) / static_cast<double>(tot_v));
+        } else {
+          pv = c;
+        }
+        double pn = 1.00 - pow((1 - beita), static_cast<double>(nb[i]) * 
+              ((a * static_cast<double>(tot_pre_is) + b * static_cast<double>(tot_pre_iv)) / 2000.00));
+        double p = 1.00 / (1.00 + exp(-1.0 * 5.0 * (pv - pn)));
+
         if (cp(p)) {
           vcn[i] = kYes;
           if (cp(ir)) {
@@ -492,10 +507,10 @@ void Process()
       if (status[i] == kS && (vcn[i] == kNo || (vcn[i] == kYes && vs[i] == kFail))) {
         // double bt = beita * exp(-1 * a * ((double)tot_nbi / (double)n));
         double bt = beita;
-        double pt = 1 - pow((1 - bt), (double)nbi[i]);
-        // sleep(1);
+        double pt = 1.00 - pow((1.00 - bt), (double)nbi[i]);
+        // debug(pt);
+        // usleep(100000);
         if (cp(pt)) {
-          // debug("here");
           sbak[i] = kI; 
         }
       } else if (status[i] == kI) {
@@ -503,6 +518,7 @@ void Process()
           sbak[i] = kR;
         }
       } else {
+        continue;
       }
     }
     storeArr(sbak, status, n);
@@ -519,7 +535,6 @@ void Process()
     }
 
     if (ci == 0) {
-      // log_info("judje success");
       break;
     }
   }
@@ -535,13 +550,10 @@ int main(int argc, char **argv)
     int ib = atoi(argv[3]);
     b = (double)ib / 100.00;
   }
-  debug(a);
-  debug(b);
-  debug(ir);
   srand(time(0));
   // BuildRegular();
-  BuildScaleFree();
-  // BuildSmall();
+  // BuildScaleFree();
+  BuildSmall();
   /*
    * 检查每个节点的度数
    */
