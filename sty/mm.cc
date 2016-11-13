@@ -582,7 +582,7 @@ void Process()
 
 int main(int argc, char **argv)
 {
-  if (argc == 4) {
+  if (argc == 5) {
     int iir = atoi(argv[1]);
     ir = (double)iir / 100.00;
     int ia = atoi(argv[2]);

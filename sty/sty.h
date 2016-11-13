@@ -45,22 +45,22 @@ enum Vs {
 /*
  * 疫苗有效率
  */
-double ir = 0.7;
+double ir = 1.0;
 
 /*
  * 疾病信息的播报率
  */
-double a = 0.9;
+double a = 1.0;
 
 /*
  * 疫苗信息的播报率
  */
-double b = 0.1;
+double b = 0;
 
 /*
  * 疫苗成本
  */
-double c = 0.7;
+double c = 0.5;
 
 /*
  * 康复的概率

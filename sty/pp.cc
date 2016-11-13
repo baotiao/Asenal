@@ -22,11 +22,13 @@ using namespace std;
 #define here cout<<__LINE__<< "  " << "_______________here" <<endl;
 #define clr(NAME,VALUE) memset(NAME,VALUE,sizeof(NAME)) 
 #define MAX 0x7f7f7f7f 
-#define N 20000
+#define N 2000
 #define PRIME 999983
 
 
-int res[N];
+struct node {
+  int r, ii, iv;
+}res[N];
 int max_len = 0;
 int step = 400;
 
@@ -42,20 +44,24 @@ int main(int argc, char **argv)
 
     string tmp;
     getline(std::cin, tmp);
-    int a, b;
+    int a, b, c, d;
     int i = 0;
-    while (scanf("%d, %d, %d, %d, %d", &a, &b, &a, &a, &a) != EOF) {
-      res[i] += b;
+    while (scanf("%d\t%d\t%d\t%d", &a, &b, &c, &d) != EOF) {
+      res[i].r += b;
+      res[i].ii += c;
+      res[i].iv += d;
       i++;
       max_len = max(max_len, i);
     }
     while (i < step) {
-      res[i] += b;
+      res[i].r += b;
+      res[i].ii += c;
+      res[i].iv += d;
       i++;
     }
   }
   for (int i = 0; i < max_len; i++) {
-    printf("%d, %d\n", i, res[i] / 100);
+    printf("%d\t%d\t%d\t%d\n", i, res[i].r / 100, res[i].ii / 100, res[i].iv / 100);
   }
   return 0;
 }
