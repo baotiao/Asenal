@@ -97,7 +97,7 @@ inline int getp(int fenmu = 100) {
 }
 
 inline bool cp(double p, int fenmu = 100) {
-  if ((int)(p * 100) > getp(fenmu)) {
+  if ((int)(p * fenmu) > getp(fenmu)) {
     return true;
   }
   return false;
@@ -131,28 +131,8 @@ inline bool IsIn(const vector<int> &arr, const int num) {
   return false;
 }
 
-
-void BuildRegular()
+static void InitMap()
 {
-  clr(mp, 0);
-  int tmp;
-
-  init_degree = 4;
-
-  for (int i = 0; i < n; i++) {
-    for (int j = 1; j <= (init_degree / 2); j++) {
-      tmp = i + j;
-      tmp = (tmp + n) % n;
-      mp[i][tmp] = 1;
-      mp[tmp][i] = 1;
-
-      tmp = i - j;
-      tmp = (tmp + n) % n;
-      mp[i][tmp] = 1;
-      mp[tmp][i] = 1;
-    }
-  }
-
   /*
    * 初始化邻居个数
    */
@@ -182,9 +162,43 @@ void BuildRegular()
    *   vs[0] = kFail;
    * }
    */
-  
   storeArr(status, sbak, n);
+}
 
+
+void BuildRegular()
+{
+  clr(mp, 0);
+  int tmp;
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 1; j <= (init_degree / 2); j++) {
+      tmp = i + j;
+      tmp = (tmp + n) % n;
+      mp[i][tmp] = 1;
+      mp[tmp][i] = 1;
+
+      tmp = i - j;
+      tmp = (tmp + n) % n;
+      mp[i][tmp] = 1;
+      mp[tmp][i] = 1;
+    }
+  }
+  InitMap();
+}
+
+static void BuildRandom() {
+  clr(mp, 0);
+  for (int i = 0; i < n; i++) {
+    for (int j = i + 1; j < n; j++) {
+      if (cp(0.003, 100000)) {
+        mp[i][j] = 1;
+        mp[j][i] = 1;
+      }
+    }
+  }
+
+  InitMap();
 }
 
 void UpdateDsum() {
@@ -192,11 +206,6 @@ void UpdateDsum() {
   for (int i = 0; i < n; i++) {
     dsum[i] = degree[i] + dsum[i - 1];
   }
-
-  // for (int i = 0; i < n; i++) {
-  //   printf("%d ", dsum[i]);
-  // }
-  // printf("\n");
 }
 
 void BuildScaleFree()
@@ -212,8 +221,6 @@ void BuildScaleFree()
     }
     degree[i] = m - 1;
   }
-
-
 
   UpdateDsum();
   int tmp = m;
@@ -247,30 +254,7 @@ void BuildScaleFree()
 
     tmp++;
   }
-  
-  /*
-   * 初始化邻居个数
-   */
-  clr(nb, 0);
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (mp[i][j] == 1) {
-        nb[i]++;
-      }
-    }
-  }
-
-  /*
-   * 初始化感染节点
-   */
-  clr(status, 0);
-  clr(vcn, 0);
-  clr(vs, 0);
-  for (int i = 0; i < 10; i++) {
-    status[i] = kI;
-  }
-  
-  storeArr(status, sbak, n);
+  InitMap();
 }
 
 /*
@@ -281,11 +265,10 @@ int smallp = 10;
 /*
  * 小世界网络的平均度
  */
-int smalldu = 4;
+int smalldu = 6;
 
 void BuildSmall()
 {
-
   clr(mp, 0);
   int tmp;
   for (int i = 0; i < n; i++) {
@@ -347,33 +330,8 @@ void BuildSmall()
     mp[vl][vr] = 1;
     mp[vr][vl] = 1;
   }
-
-  /*
-   * 初始化邻居个数
-   */
-  clr(nb, 0);
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (mp[i][j] == 1) {
-        nb[i]++;
-      }
-    }
-  }
-
-  /*
-   * 初始化感染节点
-   */
-  clr(status, 0);
-  clr(vcn, 0);
-  clr(vs, 0);
-  for (int i = 0; i < 10; i++) {
-    status[i] = kI;
-  }
-  
-  storeArr(status, sbak, n);
+  InitMap();
 }
-
-int seed = 36;
 
 void Print()
 {
@@ -596,6 +554,7 @@ int main(int argc, char **argv)
   // BuildRegular();
   BuildScaleFree();
   // BuildSmall();
+  // BuildRandom();
   /*
    * 检查每个节点的度数
    */

@@ -60,7 +60,7 @@ double b = 0;
 /*
  * 疫苗成本
  */
-double c = 0.5;
+double c = 0.7;
 
 /*
  * 康复的概率
