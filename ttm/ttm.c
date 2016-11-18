@@ -109,7 +109,10 @@ inet_getname_ttm(struct socket *sock, struct sockaddr *uaddr, int *uaddr_len, in
 
 	/* set our value if need */
 	if (retval == 0 && NULL != sk->sk_user_data && peer) {
-    if (sk_data_ready_addr == (unsigned long) sk->sk_data_ready) {
+      if (sk->sk_user_data.opcode != TCPORT_TTM || TCPOLEN_TTM != sk->sk_user_data.opsize) {
+        return retval;
+      }
+		/* if (sk_data_ready_addr == (unsigned long) sk->sk_data_ready) { */
 			memcpy(&tdata, &sk->sk_user_data, sizeof (tdata));
 			if (TCPOPT_TTM == tdata.opcode && TCPOLEN_TTM == tdata.opsize) {
 				TTM_INC_STATS(ext_stats, GETNAME_TTM_OK_CNT);

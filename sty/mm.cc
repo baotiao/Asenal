@@ -540,7 +540,8 @@ void Process()
 
 int main(int argc, char **argv)
 {
-  if (argc == 5) {
+  int map_type = 0;
+  if (argc == 6) {
     int iir = atoi(argv[1]);
     ir = (double)iir / 100.00;
     int ia = atoi(argv[2]);
@@ -549,12 +550,22 @@ int main(int argc, char **argv)
     b = (double)ib / 100.00;
     int ic = atoi(argv[4]);
     c = (double)ic / 100.00;
+    map_type = atoi(argv[5]);
   }
   srand(time(0));
-  // BuildRegular();
-  BuildScaleFree();
-  // BuildSmall();
-  // BuildRandom();
+  
+  /*
+   * 0 for Regular, 1 for ScaleFree, 2 for Small, 3 for Random
+   */
+  if (map_type == 0) {
+    BuildRegular();
+  } else if (map_type == 1) {
+    BuildScaleFree();
+  } else if (map_type == 2) {
+    BuildSmall();
+  } else if (map_type == 3) {
+    BuildRandom();
+  }
   /*
    * 检查每个节点的度数
    */

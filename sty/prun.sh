@@ -1,7 +1,7 @@
 #!/bin/sh
 
 rm -rf ./mm_res_*
-for ((j = 70; j < 71; j=( $j + 10) ))
+for ((j = 70; j < 91; j=( $j + 10) ))
 do
   for ((i = 0; i < 100; i=( $i + 1) ))
   do
