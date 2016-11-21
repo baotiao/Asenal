@@ -10,7 +10,7 @@ do
     rm -rf last_sf_sd;
     for ((i = 0; i < 100; i=( $i + 1) ))
     do
-      ./mm $k 50 100 $j 1 > ./run_tmp_sf;
+      ./mm $k 100 50 $j 1 > ./run_tmp_sf;
       cat ./run_tmp_sf | grep -v 'sd' | tail -1 >> ./last_sf_r;
       cat ./run_tmp_sf | grep 'sd' >> ./last_sf_sd;
     done
