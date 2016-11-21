@@ -302,7 +302,7 @@ void BuildSmall()
 
 
   int l, r;
-  int vl, vr;
+  int vl, tvr;
   
   while (1) {
     if (v.size() == 2) {
@@ -321,14 +321,14 @@ void BuildSmall()
     while (vl == v[r] || mp[vl][v[r]] == 1) {
       r = rand() % v.size();
     }
-    vr = v[r];
+    tvr = v[r];
     v.erase(v.begin() + r, v.begin() + r + 1);
 
-    if (vl == vr) {
+    if (vl == tvr) {
       here;
     }
-    mp[vl][vr] = 1;
-    mp[vr][vl] = 1;
+    mp[vl][tvr] = 1;
+    mp[tvr][vl] = 1;
   }
   InitMap();
 }
@@ -353,19 +353,6 @@ bool Judge()
   }
   return true;
 }
-
-int cs = 0, ci = 0, cr = 0;
-
-/*
- * is 是没有接种&感染
- * iv 接种&感染
- * cv 接种并且未被感染
- * tv 总的接种人数
- *
- */
-int cv = 0, is = 0, iv = 0;
-int tv = 0;
-
 int ptv;
 
 void statics()
@@ -374,16 +361,23 @@ void statics()
   cs = 0, ci = 0, cr = 0;
   cv = 0; is = 0, iv = 0;
   tv = 0;
+  vr = 0;
+  sr = 0;
   
   for (int i = 0; i < n; i++) {
     if (vcn[i] == kYes) {
       tv++;
     }
-    if (status[i] == kS && vcn[i] == kYes && vs[i] == kSucc) {
+    if (status[i] == kS && vcn[i] == kYes) {
       cv++;
     } else if (status[i] == kI) {
       ci++;
     } else if (status[i] == kR) {
+      if (vcn[i] == kYes) {
+        vr++;
+      } else {
+        sr++;
+      }
       cr++;
     }
   }
@@ -395,8 +389,10 @@ void statics()
   // if (cnt == 0) {
   //   printf("Tick\tR\tI\tV\tVs\n");
   // }
-  // printf("%d\t%d\t%d\t%d\t%d\n", cnt++, cr, ci, tv, cv);
+  // printf("%d\t%d\t%d\t%d\t%d\n", cnt, cr, ci, tv, cv);
   cnt++;
+
+
 }
 
 static void getRes()
@@ -409,6 +405,13 @@ static void getRes()
       printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].ci, statistics[i].tv - statistics[i - 1].tv);
     }
   }
+
+  // debug(cv);
+  // debug(vr);
+  // debug(sr);
+  sd = cv * c + vr * (c + 1) + sr;
+
+  printf("sd\t%lf\n", sd);
 }
 
 void Process()
@@ -540,7 +543,14 @@ void Process()
 
 int main(int argc, char **argv)
 {
-  int map_type = 0;
+  int map_type = 1;
+  /*
+   * 1. 疫苗有效率
+   * 2. 疾病信息的播报率
+   * 3. 疫苗信息的播报率
+   * 4. 疫苗成本
+   * 5. 网络类型
+   */
   if (argc == 6) {
     int iir = atoi(argv[1]);
     ir = (double)iir / 100.00;

@@ -42,6 +42,23 @@ enum Vs {
 
 // global variable
 
+int cs = 0, ci = 0, cr = 0;
+
+/*
+ * is 是没有接种&感染
+ * iv 接种&感染
+ * cv 接种并且未被感染
+ * tv 总的接种人数
+ *
+ */
+int cv = 0, is = 0, iv = 0;
+int tv = 0;
+
+int vr = 0, sr = 0;
+
+double sd = 0.0;
+
+
 /*
  * 疫苗有效率
  */
@@ -55,7 +72,7 @@ double a = 1.0;
 /*
  * 疫苗信息的播报率
  */
-double b = 1.0;
+double b = 0.0;
 
 /*
  * 疫苗成本
@@ -72,5 +89,6 @@ double kfl = 0.312;
  * 疾病传播率
  */
 double beita = 0.4992;
+
 
 #endif
