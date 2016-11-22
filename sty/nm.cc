@@ -3,91 +3,6 @@
 
 typedef long long lld; 
 using namespace std; 
-#ifdef DEBUG
-#define debug(x) cout<<__LINE__<<" "<<#x<<"="<<x<<endl;
-#else
-#define debug(x)
-#endif
-#define here cout<<__LINE__<< "  " << "_______________here" <<endl;
-#define clr(NAME,VALUE) memset(NAME,VALUE,sizeof(NAME)) 
-#define MAX 0x7f7f7f7f 
-#define N 2000
-#define PRIME 999983
-
-
-
-int mp[N][N];
-int status[N];
-int sbak[N];
-int degree[N];
-
-struct node {
-  int cs, ci, cr;
-  int cv, is, iv;
-  int tv;
-  
-  node():
-    cs(0),
-    ci(0),
-    cv(0),
-    is(0),
-    iv(0),
-    tv(0) {};
-} statistics[N];
-
-/*
- * 是否接种
- */
-int vcn[N];
-
-/*
- * 接种是否成功
- */
-int vs[N];
-
-/*
- * 邻居节点感染人数
- */
-int nbi[N];
-
-/*
- * 邻居节点人数
- */
-int nb[N];
-
-
-// ====================无标度网络==================
-/*
- * degree sum, used in BuildScaleFree
- */
-int dsum[N];
-
-/*
- *
- * 已经存在的节点数
- */
-int m = 5;
-
-// ====================无标度网络==================
-
-/*
- * 初始网络构建
- */
-int origin = 5;
-int ave_du = 4;
-int n = N;
-
-/*
- * 度
- */
-int init_degree = 6;
-
-
-/*
- * 定义这个迭代的次数
- */
-
-int cnt = 0;
 
 /*
  * utility functions
@@ -149,19 +64,12 @@ static void InitMap()
    * 初始化感染节点
    */
   clr(status, 0);
-  clr(vcn, 0);
-  clr(vs, 0);
+  clr(is_vaccinate, 0);
+  clr(vaccinate_status, 0);
+  clr(behaviour, 0);
   for (int i = 0; i < 10; i++) {
     status[i] = kI;
   }
-  /*
-   * vcn[0] = kYes;
-   * if (cp(ir)) {
-   *   vs[0] = kSucc;
-   * } else {
-   *   vs[0] = kFail;
-   * }
-   */
   storeArr(status, sbak, n);
 }
 
@@ -224,7 +132,6 @@ void BuildScaleFree()
 
   UpdateDsum();
   int tmp = m;
-  int du = m;
   int tt;
 
   vector<int> rep;
@@ -353,27 +260,36 @@ bool Judge()
   }
   return true;
 }
-int ptv;
 
 void statics()
 {
-  ptv = tv;
-  cs = 0, ci = 0, cr = 0;
+  cs = 0, cinfect = 0, cr = 0;
   cv = 0; is = 0, iv = 0;
   tv = 0;
   vr = 0;
   sr = 0;
+  claissez = 0;
+  cself = 0;
+  cvaccinate = 0;
   
   for (int i = 0; i < n; i++) {
-    if (vcn[i] == kYes) {
+    if (is_vaccinate[i] == kYes) {
       tv++;
     }
-    if (status[i] == kS && vcn[i] == kYes) {
+    if (behaviour[i] == kLaissez && status[i] == kS) {
+      claissez++;
+    } else if (behaviour[i] == kSelf && status[i] == kS) {
+      cself++;
+    } else if (behaviour[i] == kVaccinate) {
+      cvaccinate++;
+    }
+
+    if (status[i] == kS && is_vaccinate[i] == kYes) {
       cv++;
     } else if (status[i] == kI) {
-      ci++;
+      cinfect++;
     } else if (status[i] == kR) {
-      if (vcn[i] == kYes) {
+      if (is_vaccinate[i] == kYes) {
         vr++;
       } else {
         sr++;
@@ -382,17 +298,16 @@ void statics()
     }
   }
   statistics[cnt].cr = cr;
-  statistics[cnt].ci = ci;
+  statistics[cnt].cinfect = cinfect;
   statistics[cnt].tv = tv;
   statistics[cnt].tv = cv;
   
-  // if (cnt == 0) {
-  //   printf("Tick\tR\tI\tV\tVs\n");
-  // }
-  // printf("%d\t%d\t%d\t%d\t%d\n", cnt, cr, ci, tv, cv);
+  if (cnt == 0) {
+    // printf("Tick\tR\tI\tV\tvaccinate_status\n");
+    printf("Tick\tLaissez\tSelf\tVaccinate\tInfected\tRecovered\n");
+  }
+  printf("%d\t%d\t%d\t%d\t%d\t%d\n", cnt, claissez, cself, cvaccinate, cinfect, cr);
   cnt++;
-
-
 }
 
 static void getRes()
@@ -400,15 +315,12 @@ static void getRes()
   for (int i = 0; i < cnt; i++) {
     if (i == 0) {
       printf("Tick\tR\tincrI\tincrV\n");
-      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].ci, statistics[i].tv);
+      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].cinfect, statistics[i].tv);
     } else {
-      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].ci, statistics[i].tv - statistics[i - 1].tv);
+      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].cinfect, statistics[i].tv - statistics[i - 1].tv);
     }
   }
 
-  // debug(cv);
-  // debug(vr);
-  // debug(sr);
   sd = cv * c + vr * (c + 1) + sr;
 
   printf("sd\t%lf\n", sd);
@@ -449,68 +361,71 @@ void Process()
           nbi[i]++;
         }
       }
-      if (vcn[i] == kYes) {
+      if (is_vaccinate[i] == kYes) {
         tot_v++;
       }
-      if (vcn[i] == kYes && (status[i] == kI || status[i] == kR)) {
+      if (is_vaccinate[i] == kYes && (status[i] == kI || status[i] == kR)) {
         tot_iv++;
       }
-      if (vcn[i] == kNo && status[i] == kI) {
+      if (is_vaccinate[i] == kNo && status[i] == kI) {
         tot_pre_is++;
       }
-      if (vcn[i] == kYes && status[i] == kI) {
+      if (is_vaccinate[i] == kYes && status[i] == kI) {
         tot_pre_iv++;
       }
     }
 
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS && vcn[i] == kNo) {
-        /*
-         * v * e ^ (a * is - b * iv)
-         * v = ivw
-         * iir = a
-         * vir = b
-         */
+      if (status[i] == kS && is_vaccinate[i] == kNo) {
+        if (behaviour[i] == kLaissez || behaviour[i] == kSelf) {
+          double p1, p2, p3;
 
-        // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
-        // double p = 1 - exp(-1.0 * 0.05 * a * static_cast<double>(tot_is));
-        // p = p * exp(-1.0 * 0.05 * b * static_cast<double>(tot_iv));
-        
-        double pv;
-        if (tot_v != 0) {
-          pv = -1.00 * c - b * (static_cast<double>(tot_iv) / static_cast<double>(tot_v));
-        } else {
-          pv = -1.00 * c;
-        }
-
-        double pn = -1.00 * (1.00 - pow((1 - beita), static_cast<double>(nb[i]) * 
+          // 放任自流
+          p1 = 1.00 - pow((1 - beita), static_cast<double>(nb[i]) * 
+              ((a * static_cast<double>(tot_pre_is) + b * static_cast<double>(tot_pre_iv)) / 2000.00));
+          // 自我保护
+          p2 = d + (1.00 - pow((1 - sita * beita), static_cast<double>(nb[i]) * 
               ((a * static_cast<double>(tot_pre_is) + b * static_cast<double>(tot_pre_iv)) / 2000.00)));
-        double p = 1.00 / (1.00 + exp(-1.0 * 5.0 * (pv - pn)));
-        
-        // debug(nb[i]);
-        // debug(tot_pre_is);
-        // debug(tot_pre_iv);
-        // debug(a * static_cast<double>(tot_pre_is) + b * static_cast<double>(tot_pre_iv));
-        // debug(pn);
-        // debug(pv);
-        // debug(p);
-        if (cp(p)) {
-          vcn[i] = kYes;
-          if (cp(ir)) {
-            vs[i] = kSucc;
+          // 疫苗接种
+          if (tot_v != 0) {
+            p3 = c + b * (static_cast<double>(tot_iv) / static_cast<double>(tot_v));
           } else {
-            vs[i] = kFail;
+            p3 = c;
+          }
+
+          // debug(p1);
+          // debug(p2);
+          // debug(p3);
+
+          if (p1 < min(p2, p3)) {
+            behaviour[i] = kLaissez;
+          } else if (p2 < min(p1, p3)) {
+            behaviour[i] = kSelf;
+          } else if (p3 < min(p1, p2)) {
+            behaviour[i] = kVaccinate;
+            is_vaccinate[i] = kYes;
+            if (cp(ir)) {
+              vaccinate_status[i] = kVaccinateSucc;
+            } else {
+              vaccinate_status[i] = kVaccinateFail;
+            }
           }
         }
       }
     }
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS && (vcn[i] == kNo || (vcn[i] == kYes && vs[i] == kFail))) {
-        // double bt = beita * exp(-1 * a * ((double)tot_nbi / (double)n));
-        double bt = beita;
-        double pt = 1.00 - pow((1.00 - bt), (double)nbi[i]);
-        // debug(pt);
-        // usleep(100000);
+      if (status[i] == kS) {
+        double bt;
+        double pt;
+        if ((is_vaccinate[i] == kNo && behaviour[i] == kLaissez) || (is_vaccinate[i] == kYes && vaccinate_status[i] == kVaccinateFail)) {
+          bt = beita;
+          pt = 1.00 - pow((1.00 - bt), (double)nbi[i]);
+        } else if (is_vaccinate[i] == kNo && behaviour[i] == kSelf) {
+          bt = beita;
+          pt = 1.00 - pow((1.00 - bt * sita), (double)nbi[i]);
+        } else {
+          continue;
+        }
         if (cp(pt)) {
           sbak[i] = kI; 
         }
@@ -526,16 +441,7 @@ void Process()
 
     statics();
 
-    clr(nbi, 0);
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (mp[i][j] == 1) {
-          nbi[i]++;
-        }
-      }
-    }
-
-    if (ci == 0) {
+    if (cinfect == 0) {
       break;
     }
   }
@@ -587,7 +493,7 @@ int main(int argc, char **argv)
   // Print();
 
   Process();
-  getRes();
+  // getRes();
 
   return 0;
 }

@@ -3,91 +3,6 @@
 
 typedef long long lld; 
 using namespace std; 
-#ifdef DEBUG
-#define debug(x) cout<<__LINE__<<" "<<#x<<"="<<x<<endl;
-#else
-#define debug(x)
-#endif
-#define here cout<<__LINE__<< "  " << "_______________here" <<endl;
-#define clr(NAME,VALUE) memset(NAME,VALUE,sizeof(NAME)) 
-#define MAX 0x7f7f7f7f 
-#define N 2000
-#define PRIME 999983
-
-
-
-int mp[N][N];
-int status[N];
-int sbak[N];
-int degree[N];
-
-struct node {
-  int cs, ci, cr;
-  int cv, is, iv;
-  int tv;
-  
-  node():
-    cs(0),
-    ci(0),
-    cv(0),
-    is(0),
-    iv(0),
-    tv(0) {};
-} statistics[N];
-
-/*
- * 是否接种
- */
-int vcn[N];
-
-/*
- * 接种是否成功
- */
-int vs[N];
-
-/*
- * 邻居节点感染人数
- */
-int nbi[N];
-
-/*
- * 邻居节点人数
- */
-int nb[N];
-
-
-// ====================无标度网络==================
-/*
- * degree sum, used in BuildScaleFree
- */
-int dsum[N];
-
-/*
- *
- * 已经存在的节点数
- */
-int m = 5;
-
-// ====================无标度网络==================
-
-/*
- * 初始网络构建
- */
-int origin = 5;
-int ave_du = 4;
-int n = N;
-
-/*
- * 度
- */
-int init_degree = 6;
-
-
-/*
- * 定义这个迭代的次数
- */
-
-int cnt = 0;
 
 /*
  * utility functions
@@ -149,19 +64,11 @@ static void InitMap()
    * 初始化感染节点
    */
   clr(status, 0);
-  clr(vcn, 0);
-  clr(vs, 0);
+  clr(is_vaccinate, 0);
+  clr(vaccinate_status, 0);
   for (int i = 0; i < 10; i++) {
     status[i] = kI;
   }
-  /*
-   * vcn[0] = kYes;
-   * if (cp(ir)) {
-   *   vs[0] = kSucc;
-   * } else {
-   *   vs[0] = kFail;
-   * }
-   */
   storeArr(status, sbak, n);
 }
 
@@ -358,22 +265,22 @@ int ptv;
 void statics()
 {
   ptv = tv;
-  cs = 0, ci = 0, cr = 0;
+  cs = 0, cinfect = 0, cr = 0;
   cv = 0; is = 0, iv = 0;
   tv = 0;
   vr = 0;
   sr = 0;
   
   for (int i = 0; i < n; i++) {
-    if (vcn[i] == kYes) {
+    if (is_vaccinate[i] == kYes) {
       tv++;
     }
-    if (status[i] == kS && vcn[i] == kYes) {
+    if (status[i] == kS && is_vaccinate[i] == kYes) {
       cv++;
     } else if (status[i] == kI) {
-      ci++;
+      cinfect++;
     } else if (status[i] == kR) {
-      if (vcn[i] == kYes) {
+      if (is_vaccinate[i] == kYes) {
         vr++;
       } else {
         sr++;
@@ -382,14 +289,14 @@ void statics()
     }
   }
   statistics[cnt].cr = cr;
-  statistics[cnt].ci = ci;
+  statistics[cnt].cinfect = cinfect;
   statistics[cnt].tv = tv;
   statistics[cnt].tv = cv;
   
   // if (cnt == 0) {
-  //   printf("Tick\tR\tI\tV\tVs\n");
+  //   printf("Tick\tR\tI\tV\tvaccinate_status\n");
   // }
-  // printf("%d\t%d\t%d\t%d\t%d\n", cnt, cr, ci, tv, cv);
+  // printf("%d\t%d\t%d\t%d\t%d\n", cnt, cr, cinfect, tv, cv);
   cnt++;
 
 
@@ -400,9 +307,9 @@ static void getRes()
   for (int i = 0; i < cnt; i++) {
     if (i == 0) {
       printf("Tick\tR\tincrI\tincrV\n");
-      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].ci, statistics[i].tv);
+      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].cinfect, statistics[i].tv);
     } else {
-      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].ci, statistics[i].tv - statistics[i - 1].tv);
+      printf("%d\t%d\t%d\t%d\n", i, statistics[i].cr, statistics[i].cinfect, statistics[i].tv - statistics[i - 1].tv);
     }
   }
 
@@ -449,22 +356,22 @@ void Process()
           nbi[i]++;
         }
       }
-      if (vcn[i] == kYes) {
+      if (is_vaccinate[i] == kYes) {
         tot_v++;
       }
-      if (vcn[i] == kYes && (status[i] == kI || status[i] == kR)) {
+      if (is_vaccinate[i] == kYes && (status[i] == kI || status[i] == kR)) {
         tot_iv++;
       }
-      if (vcn[i] == kNo && status[i] == kI) {
+      if (is_vaccinate[i] == kNo && status[i] == kI) {
         tot_pre_is++;
       }
-      if (vcn[i] == kYes && status[i] == kI) {
+      if (is_vaccinate[i] == kYes && status[i] == kI) {
         tot_pre_iv++;
       }
     }
 
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS && vcn[i] == kNo) {
+      if (status[i] == kS && is_vaccinate[i] == kNo) {
         /*
          * v * e ^ (a * is - b * iv)
          * v = ivw
@@ -495,17 +402,17 @@ void Process()
         // debug(pv);
         // debug(p);
         if (cp(p)) {
-          vcn[i] = kYes;
+          is_vaccinate[i] = kYes;
           if (cp(ir)) {
-            vs[i] = kSucc;
+            vaccinate_status[i] = kVaccinateSucc;
           } else {
-            vs[i] = kFail;
+            vaccinate_status[i] = kVaccinateFail;
           }
         }
       }
     }
     for (int i = 0; i < n; i++) {
-      if (status[i] == kS && (vcn[i] == kNo || (vcn[i] == kYes && vs[i] == kFail))) {
+      if (status[i] == kS && (is_vaccinate[i] == kNo || (is_vaccinate[i] == kYes && vaccinate_status[i] == kVaccinateFail))) {
         // double bt = beita * exp(-1 * a * ((double)tot_nbi / (double)n));
         double bt = beita;
         double pt = 1.00 - pow((1.00 - bt), (double)nbi[i]);
@@ -525,17 +432,7 @@ void Process()
     storeArr(sbak, status, n);
 
     statics();
-
-    clr(nbi, 0);
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (mp[i][j] == 1) {
-          nbi[i]++;
-        }
-      }
-    }
-
-    if (ci == 0) {
+    if (cinfect == 0) {
       break;
     }
   }
