@@ -325,31 +325,35 @@ void Process()
 {
   statics();
 
-  int tot_nbi = 0;
-  int tot_v = 0;
-  int tot_iv = 0;
-  int tot_pre_is = 0;
-  int tot_pre_iv = 0;
-  while (1) {
-    clr(nbi, 0);
-    tot_nbi = 0;
-    /*
-     * 接种过的人
-     */
-    tot_v = 0;
-    /*
-     * 接种过, 并且被感染过的人
-     */
-    tot_iv = 0;
+  /*
+   * 接种过的人
+   */
+  int vaccinated_num[N];
+  /*
+   * 接种过, 并且被感染过的人, 只要被感染过就行
+   */
+  int vaccinated_infected_num[N];
+  /*
+   * 没有接种过疫苗, 并且现在是感染态的人
+   */
+  int novaccinated_infecting_num[N];
+  /*
+   * 接种过疫苗, 并且现在是感染态的人
+   */
+  int vaccinated_infecting_num[N];
+  
+  /*
+   * 这个t 是时间序列
+   */
+  t = 100;
 
-    /*
-     * 没有接种过疫苗, 并且被感染过的人
-     */
-    tot_pre_is = 0;
-    /*
-     * 接种过疫苗, 又感染的人
-     */
-    tot_pre_iv = 0;
+  clr(vaccinated_num, 0);
+  clr(vaccinated_infected_num, 0);
+  clr(novaccinated_infecting_num, 0);
+  clr(vaccinated_infecting_num, 0);
+
+  while (t++) {
+    clr(nbi, 0);
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         if (mp[i][j] == 1 && status[j] == kI) {
@@ -357,16 +361,16 @@ void Process()
         }
       }
       if (is_vaccinate[i] == kYes) {
-        tot_v++;
+        vaccinated_num[t]++;
       }
       if (is_vaccinate[i] == kYes && (status[i] == kI || status[i] == kR)) {
-        tot_iv++;
+        vaccinated_infected_num[t]++;
       }
       if (is_vaccinate[i] == kNo && status[i] == kI) {
-        tot_pre_is++;
+        novaccinated_infecting_num[t]++;
       }
       if (is_vaccinate[i] == kYes && status[i] == kI) {
-        tot_pre_iv++;
+        vaccinated_infecting_num[t]++;
       }
     }
 
@@ -381,26 +385,19 @@ void Process()
 
         // double p = (iir * is / (1 + iir * is)) * (1.0 - ((vir * iv) / (1.0 + vir * iv)));
         // double p = 1 - exp(-1.0 * 0.05 * a * static_cast<double>(tot_is));
-        // p = p * exp(-1.0 * 0.05 * b * static_cast<double>(tot_iv));
+        // p = p * exp(-1.0 * 0.05 * b * static_cast<double>(vaccinated_infected_num));
         
         double pv;
-        if (tot_v != 0) {
-          pv = -1.00 * c - b * (static_cast<double>(tot_iv) / static_cast<double>(tot_v));
+        if (vaccinated_num[t - delay] != 0) {
+          pv = -1.00 * c - b * (static_cast<double>(vaccinated_infected_num[t - delay]) / static_cast<double>(vaccinated_num[t - delay]));
         } else {
           pv = -1.00 * c;
         }
 
         double pn = -1.00 * (1.00 - pow((1 - beita), static_cast<double>(nb[i]) * 
-              ((a * static_cast<double>(tot_pre_is) + b * static_cast<double>(tot_pre_iv)) / 2000.00)));
+              ((a * static_cast<double>(novaccinated_infecting_num[t - delay]) + b * static_cast<double>(vaccinated_infecting_num[t - delay])) / 2000.00)));
         double p = 1.00 / (1.00 + exp(-1.0 * 5.0 * (pv - pn)));
         
-        // debug(nb[i]);
-        // debug(tot_pre_is);
-        // debug(tot_pre_iv);
-        // debug(a * static_cast<double>(tot_pre_is) + b * static_cast<double>(tot_pre_iv));
-        // debug(pn);
-        // debug(pv);
-        // debug(p);
         if (cp(p)) {
           is_vaccinate[i] = kYes;
           if (cp(ir)) {

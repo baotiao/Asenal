@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -O2 -std=c++11 -DDEBUG
 # OBJECT = m1 m21 m22 m31 m32 p p1
 
-OBJECT = nm ppnm
+OBJECT = mm ppnm
 
 .PHONY = all $(OBJECT) clean
 

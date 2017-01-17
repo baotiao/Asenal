@@ -160,6 +160,12 @@ struct node {
     tv(0) {};
 } statistics[N];
 
+// 当前进行的轮数
+int t = 0;
+
+// 信息滞后时间
+int delay = 0;
+
 /*
  * 是否接种
  */
