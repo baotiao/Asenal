@@ -43,6 +43,11 @@ enum IsVaccinate {
   kYes = 1,
 };
 
+enum IsSelfProtect {
+  kSelfProtectNo = 0,
+  kSelfProtectYes = 1,
+};
+
 /*
  * 注射疫苗是否成功
  */
@@ -102,17 +107,17 @@ double a = 1.0;
 /*
  * 疫苗信息的播报率
  */
-double b = 0.0;
+double b = 1.0;
 
 /*
  * 疫苗成本
  */
-double c = 0.8;
+double c = 0.7;
 
 /*
  * 自我保护需要的钱
  */
-double d = 0.1;
+// double d = 0.1;
 
 /*
  * 康复的概率
@@ -128,7 +133,7 @@ double beita = 0.4992;
 /*
  * 自我保护强度
  */
-double sita = 0.8;
+// double sita = 0.6;
 
 /*
  * global variable end here
@@ -159,6 +164,11 @@ struct node {
  * 是否接种
  */
 IsVaccinate is_vaccinate[N];
+
+/*
+ * 是否自我保护过
+ */
+IsSelfProtect is_self_protect[N];
 
 /*
  * 接种是否成功

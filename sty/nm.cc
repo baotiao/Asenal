@@ -71,6 +71,7 @@ static void InitMap()
     status[i] = kI;
   }
   storeArr(status, sbak, n);
+  clr(is_self_protect, 0);
 }
 
 
@@ -321,9 +322,19 @@ static void getRes()
     }
   }
 
+  int cnt_self_protect = 0;
+  for (int i = 0; i < N; i++) {
+    if (is_self_protect[i] == kSelfProtectYes) {
+      cnt_self_protect++;
+    }
+  }
+  double sum_self_protect = 0;
+  sum_self_protect = static_cast<double>(cnt_self_protect) * d;
+
   sd = cv * c + vr * (c + 1) + sr;
 
-  printf("sd\t%lf\n", sd);
+
+  printf("sd\t%lf\tsum_self_protect\t%lf\n", sd, sum_self_protect);
 }
 
 void Process()
@@ -400,6 +411,7 @@ void Process()
           if (p1 < min(p2, p3)) {
             behaviour[i] = kLaissez;
           } else if (p2 < min(p1, p3)) {
+            is_self_protect[i] = kSelfProtectYes;
             behaviour[i] = kSelf;
           } else if (p3 < min(p1, p2)) {
             behaviour[i] = kVaccinate;
@@ -417,7 +429,9 @@ void Process()
       if (status[i] == kS) {
         double bt;
         double pt;
-        if ((is_vaccinate[i] == kNo && behaviour[i] == kLaissez) || (is_vaccinate[i] == kYes && vaccinate_status[i] == kVaccinateFail)) {
+        if ((is_vaccinate[i] == kNo && behaviour[i] == kLaissez) ||
+            (is_vaccinate[i] == kYes && vaccinate_status[i] == kVaccinateFail))
+        {
           bt = beita;
           pt = 1.00 - pow((1.00 - bt), (double)nbi[i]);
         } else if (is_vaccinate[i] == kNo && behaviour[i] == kSelf) {
@@ -493,7 +507,7 @@ int main(int argc, char **argv)
   // Print();
 
   Process();
-  // getRes();
+  getRes();
 
   return 0;
 }
