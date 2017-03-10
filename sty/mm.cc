@@ -444,8 +444,9 @@ int main(int argc, char **argv)
    * 3. 疫苗信息的播报率
    * 4. 疫苗成本
    * 5. 网络类型
+   * 6. 信息滞后时间
    */
-  if (argc == 6) {
+  if (argc == 7) {
     int iir = atoi(argv[1]);
     ir = (double)iir / 100.00;
     int ia = atoi(argv[2]);
@@ -455,6 +456,7 @@ int main(int argc, char **argv)
     int ic = atoi(argv[4]);
     c = (double)ic / 100.00;
     map_type = atoi(argv[5]);
+    delay = atoi(argv[6]);
   }
   srand(time(0));
   
